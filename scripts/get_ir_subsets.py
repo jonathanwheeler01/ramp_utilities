@@ -5,7 +5,7 @@ from utilities import *   # pandas is imported here
 def subset_ramp_by_ir(ir_id, ir_platform):
     print("\n", ir_id)
     # get a list of zip files
-    zipfile_list = glob.glob("./zipped_data/*/*.zip")
+    zipfile_list = glob.glob("../zipped_data/*/*.zip")
 
     # Create a dataframe for the IR's RAMP data
     # by reading and subsetting the first zip file
@@ -20,14 +20,14 @@ def subset_ramp_by_ir(ir_id, ir_platform):
 
     print("\nnrows in dataframe:", len(ir_data))
     ir_data = construct_item_uids(ir_data, ir_platform)
-    ir_data.to_csv("./ir_data_subsets/" + ir_id + "_RAMP_data.csv", index=False)
+    ir_data.to_csv("../ir_data_subsets/" + ir_id + "_RAMP_data.csv", index=False)
     print(ir_id, "done!")
 
     return
 
 
 # Read the IR info file
-ir_info = pd.read_csv("./supplementary_data/RAMP_repository_info.csv")
+ir_info = pd.read_csv("../supplementary_data/RAMP_repository_info.csv")
 # print(ir_info.info())
 
 # Create a list of IR to exclude as needed
