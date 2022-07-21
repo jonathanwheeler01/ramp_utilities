@@ -1,4 +1,4 @@
-# README
+# RAMP utilities
 
 A repository for functions and methods that are helpful in analyzing RAMP data. The main file of interest is ```utilities.py```, which can be imported into scripts:
 
