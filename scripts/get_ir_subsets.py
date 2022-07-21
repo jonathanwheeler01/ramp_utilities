@@ -27,7 +27,7 @@ def subset_ramp_by_ir(ir_id, ir_platform):
 
 
 # Read the IR info file
-ir_info = pd.read_csv("RAMP_repository_info.csv")
+ir_info = pd.read_csv("./supplementary_data/RAMP_repository_info.csv")
 # print(ir_info.info())
 
 # Create a list of IR to exclude as needed

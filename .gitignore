@@ -1,6 +1,7 @@
 .idea/*
 __pycache__/*
+scripts/__pycache__/*
 *~
 *.csv
 *.zip
-!RAMP_repository_info.csv
+!supplementary_data/RAMP_repository_info.csv
