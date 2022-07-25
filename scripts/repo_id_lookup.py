@@ -11,6 +11,5 @@ for key, value in repo_ids.items():
         if index_lookup in v:
             print(k)
 
-# u_waterloo_uwspace
 
 

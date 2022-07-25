@@ -31,7 +31,7 @@ ir_info = pd.read_csv("../supplementary_data/RAMP_repository_info.csv")
 # print(ir_info.info())
 
 # Create a list of IR to exclude as needed
-excluded_ir = ['university_waterloo', 'boston_university', 'university_miami', 'rutgers_university_soar']
+excluded_ir = ['university_waterloo', 'boston_university', 'university_miami', 'rutgers_university_soar', 'brock_university']
 
 # To test things we will use an 'included_ir' list
 included_ir = ['montana_state_university']
