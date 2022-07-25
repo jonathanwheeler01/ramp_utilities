@@ -1,0 +1,423 @@
+{
+  "Arizona State University Digital Repository": {
+    "arizona_state_digital": [
+      "asu_digital",
+      "asu_ir"
+    ]
+  },
+  "Arizona State University KEEP Repository": {
+    "arizona_state_keep": [
+      "asu_keep_repo"
+    ]
+  },
+  "Arizona State University PRISM Repository": {
+    "arizona_state_prism": [
+      "asu_prism_repo"
+    ]
+  },
+  "Atmire Open Repository Public Demo Repository": {
+    "atmire": [
+      "atmire_demo",
+      "atmire_repo"
+    ]
+  },
+  "Australian Catholic University's ResearchBank": {
+    "australian_catholic_university": [
+      "acu_researchbank_digital",
+      "acu_researchbank"
+    ]
+  },
+  "Boston University OpenBU": {
+    "boston_university": [
+      "boston_openbu",
+      "boston_u"
+    ]
+  },
+  "Brock University Digital Repository": {
+    "brock_university": [
+      "brock_digital",
+      "brock_u"
+    ]
+  },
+  "California Digital Library eScholarship": {
+    "california_digital_library": [
+      "cdl_escholarship",
+      "cdl_repo"
+    ]
+  },
+  "CaltechAUTHORS": {
+    "california_tech_authors": [
+      "caltech_authors",
+      "caltech_author"
+    ]
+  },
+  "CaltechTHESIS": {
+    "california_tech_thesis": [
+      "caltech_theses",
+      "caltech_thesis"
+    ]
+  },
+  "Carroll College Carroll Scholars": {
+    "carroll_college": [
+      "carroll_college"
+    ]
+  },
+  "Colorado and Wyoming Mountain Scholar": {
+    "colorado_wyoming_mtn_scholar": [
+      "colorado",
+      "co_wy_mtnscholar"
+    ]
+  },
+  "DSpace @ Southeast Asian Fisheries Development Center": {
+    "southeast_asian_fisheries_dev_ctr": [
+      "seafdec_ir",
+      "seafdec_repo"
+    ]
+  },
+  "DesignSafe-CI": {
+    "tacc_designsafe": [
+      "designsafe_ci",
+      "designsafe_repo"
+    ]
+  },
+  "Digital Commons @ The University of Nebraska Lincoln": {
+    "university_nebraska_lincoln": [
+      "unlincoln_dc",
+      "unlincoln_digital"
+    ]
+  },
+  "Illinois Institute of Technology repository.iit": {
+    "illinois_institute_technology": [
+      "iit_repository",
+      "iit_repo"
+    ]
+  },
+  "Indiana University - Purdue University Indianapolis (IUPUI) ScholarWorks": {
+    "indiana_university_purdue_university_indianapolis": [
+      "iupui_ir",
+      "iupui_scholarworks"
+    ]
+  },
+  "Institutional Repository of Russian State Vocational Pedagogical University": {
+    "russian_state_vocational_pedagogical_university": [
+      "rsvpu_elar",
+      "rsvpu_ir"
+    ]
+  },
+  "International Food Policy Research Institute (IFPRI) e-brary Knowledge Repository": {
+    "international_food_policy_research_inst": [
+      "ifpri_rep",
+      "ifpri_repo"
+    ]
+  },
+  "Iowa State University Digital Repository": {
+    "iowa_state_university": [
+      "iastate_digital",
+      "iowa_st_digital"
+    ]
+  },
+  "Kansas State University New Prairie Press": {
+    "kansas_state_new_prairie_press": [
+      "prairie_digital"
+    ]
+  },
+  "Kansas State University Research Exchange (K-REx)": {
+    "kansas_state_university": [
+      "kansas_krex",
+      "krex"
+    ]
+  },
+  "Maryland MD-SOAR": {
+    "maryland_soar": [
+      "maryland_mdsoar",
+      "md_soar"
+    ]
+  },
+  "Massey University Massey Research Online": {
+    "massey_university": [
+      "massey",
+      "massey_research"
+    ]
+  },
+  "McMaster University MacSphere": {
+    "mcmaster_university": [
+      "mcmaster",
+      "mcmaster_macsphere"
+    ]
+  },
+  "Montana State University Scholarworks": {
+    "montana_state_university": [
+      "montana",
+      "msu_scholarworks"
+    ]
+  },
+  "Northeastern University Digital Repository Service": {
+    "northeastern_university": [
+      "northeastern",
+      "northeastern_repo"
+    ]
+  },
+  "Northern Kentucky University Digital Repositor": {
+    "northern_kentucky_university": [
+      "nku",
+      "nku_digital"
+    ]
+  },
+  "OAKTrust digital repository at Texas A&M": {
+    "texas_am_university": [
+      "tamu_oaktrust",
+      "texas_am"
+    ]
+  },
+  "Repositorio Acad\u00e9mico do Universidad Peruana de Ciencias Aplicadas": {
+    "universidad_peruana_ciencias": [
+      "universidad_peruana_repo"
+    ]
+  },
+  "Royal Roads University and Vancouver Island University VIURRSpace": {
+    "vancouver_island_royal_roads_universities": [
+      "viurr",
+      "viurr_repository"
+    ]
+  },
+  "Rutgers University RUcore Institutional Repository": {
+    "rutgers_university": [
+      "rutgers",
+      "rutgers_rucore"
+    ]
+  },
+  "SHAREOK": {
+    "oklahoma_shareok": [
+      "oklahoma_shareok",
+      "shareok"
+    ]
+  },
+  "Sam Houston State University Scholarly Works @ SHSU": {
+    "sam_houston_state_university": [
+      "shsu_ir",
+      "shsu_works"
+    ]
+  },
+  "Smithsonian Research Online": {
+    "smithsonian_research": [
+      "smithsonian",
+      "smithsonian_research"
+    ]
+  },
+  "Swarthmore College Works": {
+    "swarthmore_college": [
+      "swarthmore",
+      "swarthmore_works"
+    ]
+  },
+  "Swarthmore College: Institutional Scholarship": {
+    "swarthmore_tricollege_consortium": [
+      "swarthmore_inst-schol",
+      "swarthmore_tricollege"
+    ]
+  },
+  "Swedish University of Agricultural Sciences Epsilon Archive for Student Projects": {
+    "swedish_university_ag_sci_student_projects": [
+      "epsilon_students",
+      "epsilon_student"
+    ]
+  },
+  "Swedish University of Agricultural Sciences Epsilon Open Archive": {
+    "swedish_university_ag_sci_archive": [
+      "epsilon",
+      "epsilon_open"
+    ]
+  },
+  "The Chinese University of Hong Kong (CUHK) Digital Repository": {
+    "chinese_university_hong_kong_digital_repository": [
+      "cuhk_digital",
+      "cuhk_repo"
+    ]
+  },
+  "The Chinese University of Hong Kong (CUHK) Library Digital Scholarship Projects Site": {
+    "chinese_university_hong_kong_digital_projects": [
+      "cuhk_ds",
+      "cuhk_scholarship"
+    ]
+  },
+  "University of Arizona Campus Repository": {
+    "university_arizona": [
+      "u_arizona",
+      "u_arizona_repo"
+    ]
+  },
+  "University of Calgary PRISM": {
+    "university_calgary": [
+      "calgary",
+      "calgary_prism"
+    ]
+  },
+  "University of Houston Institutional Repository": {
+    "university_houston": [
+      "tdl_houston",
+      "u_houston_repo"
+    ]
+  },
+  "University of Kentucky UKnowledge": {
+    "university_kentucky": [
+      "univ_kentucky",
+      "u_kentucky_uknowledge"
+    ]
+  },
+  "University of Maryland DRUM": {
+    "maryland_drum": [
+      "maryland_mddrum",
+      "md_drum"
+    ]
+  },
+  "University of Miami Scholarship@Miami": {
+    "university_miami": [
+      "u_miami_scholarship"
+    ]
+  },
+  "University of Michigan Deep Blue": {
+    "university_michigan": [
+      "michigan_deepblue",
+      "um"
+    ]
+  },
+  "University of Minnesota Digital Conservancy": {
+    "university_minnesota": [
+      "umn_digital_conservancy",
+      "umn_digital"
+    ]
+  },
+  "University of Montana ScholarWorks": {
+    "university_montana": [
+      "u_montana",
+      "u_montana_scholarworks"
+    ]
+  },
+  "University of Nevada, Las Vegas Digital Scholarshop@UNLV": {
+    "university_nevada_las_vegas": [
+      "unlv_digital",
+      "unlv_digitalscholarship"
+    ]
+  },
+  "University of Nevada, Reno Scholarworks": {
+    "university_nevada_reno": [
+      "un_reno",
+      "un_reno_scholarworks"
+    ]
+  },
+  "University of New Mexico Digital Repository": {
+    "university_new_mexico": [
+      "new_mexico",
+      "new_mexico_dc",
+      "nm_dc"
+    ]
+  },
+  "University of Pittsbugh D-Scholarship@Pitt": {
+    "university_pittsburgh": [
+      "ds_pitt",
+      "pittsburgh_digital"
+    ]
+  },
+  "University of Plymouth PEARL": {
+    "university_plymouth": [
+      "plymouth_pearl",
+      "uop_pearl"
+    ]
+  },
+  "University of Strathclyde Strathprints": {
+    "university_strathclyde": [
+      "strathclyde_strathprints",
+      "strathprints"
+    ]
+  },
+  "University of Texas Scholarworks": {
+    "university_texas": [
+      "ut_austin",
+      "ut_austin_scholarworks"
+    ]
+  },
+  "University of Waterloo UWSpace": {
+    "university_waterloo": [
+      "u_waterloo",
+      "u_waterloo_uwspace"
+    ]
+  },
+  "University of Winnipeg WinnSpace": {
+    "university_winnipeg": [
+      "winnipeg",
+      "winnipeg_winnspace"
+    ]
+  },
+  "University of Wollongong Australia: Research Online": {
+    "university_wollongong": [
+      "wollongong_digital",
+      "wollongong"
+    ]
+  },
+  "University of the Western Cape Electronic Theses and Dissertations Repository": {
+    "university_western_cape_etd": [
+      "western_cape_etd",
+      "w_cape_etd"
+    ]
+  },
+  "University of the Western Cape Repository": {
+    "university_western_cape_repository": [
+      "western_cape_repo",
+      "w_cape_repo"
+    ]
+  },
+  "Universit\u00e9 Laval CorpusUL": {
+    "universit\u00e9_laval": [
+      "uni_laval",
+      "u_laval_corpusul"
+    ]
+  },
+  "Virginia Commonwealth University Scholars Compass": {
+    "virginia_commonwealth_university": [
+      "vcu_digital",
+      "vcu_sch_compass"
+    ]
+  },
+  "Virginia Tech VTechWorks": {
+    "virginia_tech": [
+      "va_tech",
+      "v_tech_works"
+    ]
+  },
+  "Washburn University Institutional Repository": {
+    "washburn_university": [
+      "washburn_repo"
+    ]
+  },
+  "eCommons, Cornell's digital repository": {
+    "cornell_university": [
+      "cornell_ecommons",
+      "cornell_repo"
+    ]
+  },
+  "SOAR: Scholarly Open Access at Rutgers": {
+    "rutgers_university_soar": [
+      "rutgers_soar_repo"
+    ]
+  },
+  "Brandeis University Scholarworks": {
+    "brandeis_university_scholarworks": [
+      "brandeis_scholarworks"
+    ]
+  },
+  "Electronic Archive of the Ural State Pedagogical University": {
+    "ural_state_pedagogical_university_archive" : [
+      "uspu_elar_repo"
+    ]
+  },
+  "Electronic Archive of the Ural Federal University": {
+    "ural_federal_university_archive": [
+      "urfu_elar_repo"
+    ]
+  },
+  "Swinburne University of Technology Research Bank": {
+    "swinburne_university_research_bank": [
+      "swinburne_research_bank"
+    ]
+  }
+}
