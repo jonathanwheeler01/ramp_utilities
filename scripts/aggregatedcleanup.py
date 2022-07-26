@@ -13,13 +13,13 @@ aggdata.info()
 # records - 1048575
 
 #Remove non-citable conent
-aggdata = aggdata[aggdata.citableContent != "No"]
+aggdata = aggdata[aggdata.citableContent == "Yes"].copy()
 aggdata.head()
 aggdata.info()
 #records - 810885
 
 #Remove no click data
-aggdata = aggdata[aggdata.clicks != 0]
+aggdata = aggdata[aggdata.clicks > 0].copy()
 aggdata.head()
 aggdata.info()
 
@@ -30,38 +30,19 @@ aggdata.head()
 aggdata.info()
 # records - 810828
 
-#Sort based on unique_item_uri
-aggdata = aggdata.sort_values(by="unique_item_uri")
-aggdata.head()
-aggdata.info()
+# group by unique_item_uri
+print(len(pd.unique(aggdata["unique_item_uri"])))
+aggGrouped = aggdata.groupby('unique_item_uri')
+len(aggGrouped.groups)  # output should be the same as line 34
 
-# Delete date, url, citableContent, and index columns
-aggdata = aggdata.drop(["date", "url", "citableContent","index"] , axis = 1)
-aggdata.info()
+# let's work on a single group
+print(aggGrouped.groups.keys())
 
+one_item = aggGrouped.get_group('/1/10477')
+print(one_item)
 
-# Create buckets for position
-aggdata["position_bin"] = pd.cut(x=aggdata["position"], bins = [0,50,100,150,200,250,300,350,400,450,500])
-aggdata.head(20)
-
-for x in aggdata["position_bin"]:  
-    aggdata[str(x)] = 0
-
-#finish logic for column addition
-for x in aggdata["position"]: 
-    if x < 50.0:
-        aggdata["columnrange1"] += 1
-        aggdata ["columnrange2"] += 1
-    
-aggdata.head(20)
-aggdata.info()
-
-#Incrementing
-z = 0
-for n in range(10):
-    z += 1
-print(z)
-
+# get descriptive statistics
+one_item.describe()
 
 #Save to csv for analysis
 aggdata.to_csv("cleanaggdata")
