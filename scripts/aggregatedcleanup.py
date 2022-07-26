@@ -96,8 +96,23 @@ for name, group in aggGrouped:
             p1 += 1
         elif p > 10 and p <= 20:
             p2 += 1
+        elif p > 20 and p <= 50:
+            p5 += 1
+        elif p > 50 and p <= 100:
+            p10 += 1
+        else:
+            p10plus += 1
+    tdf = pd.DataFrame([[repo_id, uid, ct_serp, i_clicks,
+                         i_impressions, i_clickthrough,
+                         mean_pos, med_pos, std_pos,
+                         p1, p2, p5, p10, p10plus]], columns=cols)
+    out_df = pd.concat([out_df, tdf])
     
+out_df.info()
+out_df.head()
     
+# we could also try this using apply() on the cleaned dataframe
+
 
 
         
