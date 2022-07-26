@@ -7,7 +7,7 @@ Created on Mon Jul 25 08:32:26 2022
 
 import pandas as pd
 
-aggdata = pd.read_csv("C:/Users/MayeKaypounyers/Downloads/ramp_utilities-main/ramp_utilities-main/ir_data_subsets/montana_state_university_RAMP_data.csv")
+aggdata = pd.read_csv("../ir_data_subsets/montana_state_university_RAMP_data.csv")
 aggdata.head()
 aggdata.info()
 # records - 1048575

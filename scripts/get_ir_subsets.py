@@ -5,7 +5,7 @@ from utilities import *   # pandas is imported here
 def subset_ramp_by_ir(ir_id, ir_platform):
     print("\n", ir_id)
     # get a list of zip files
-    zipfile_list = glob.glob("../zipped_data/*/*.zip")
+    zipfile_list = glob.glob("../zipped_data/*/*_page-clicks.zip")
 
     # Create a dataframe for the IR's RAMP data
     # by reading and subsetting the first zip file
