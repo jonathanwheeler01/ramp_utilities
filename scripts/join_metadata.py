@@ -55,4 +55,44 @@ for name, group in desc_groups:
 len(m_desc)
 8491 + 1647
 # some items have more than 2 description fields...
+# compare with abstract field
+abs_meta = oaipmh_meta[oaipmh_meta['tag']== 'abstract'].copy()
+len(pd.unique(abs_meta['id']))
+
+# still duplicates...
+# let's not join the dataframes
+def get_item_desc_meta(unique_item_uri):
+    item_meta = desc_meta[desc_meta['unique_item_uri'] == unique_item_uri].copy()
+    desc_meta_values = item_meta['value']
+    value_string = ";".join(desc_meta_values)
+    return value_string
+
+ramp_data['desc_meta'] = ramp_data['unique_item_uri'].apply(get_item_desc_meta)
+    
+ramp_data['desc_meta'].head()
+
+ramp_data.info()
+
+subject_meta = oaipmh_meta[oaipmh_meta['tag']== 'subject'].copy()
+
+def get_item_subject_meta(unique_item_uri):
+    item_meta = subject_meta[subject_meta['unique_item_uri'] == unique_item_uri].copy()
+    subject_meta_values = item_meta['value']
+    value_string = ";".join(subject_meta_values)
+    return value_string
+
+ramp_data['subject_meta'] = ramp_data['unique_item_uri'].apply(get_item_subject_meta)
+
+ramp_data['subject_meta'].head()
+
+ramp_data.info()
+
+ramp_data.to_csv('../ir_data_subsets/' + ir + "_RAMP_desc_subject_meta.csv")
+
+
+
+
+
+
+
 
