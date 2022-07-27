@@ -166,12 +166,12 @@ for name, group in aggGrouped2:
 out_df2.info()
 out_df2.head()
 
-out_df.to_csv("../ir_data_subsets/grouped_logic.csv", index=False)
-out_df2.to_csv("../ir_data_subsets/apply_logic.csv", index=False)
+#out_df.to_csv("../ir_data_subsets/grouped_logic.csv", index=False)
+out_df2.to_csv("../ir_data_subsets/montana_state_university_RAMP_aggregated.csv", index=False)
 
-aggdata[aggdata['position_bucket'] == 'gt10_lte20'].count()
-len(aggdata[aggdata['position_bucket'] == 'gt10_lte20'])
+#aggdata[aggdata['position_bucket'] == 'gt10_lte20'].count()
+#len(aggdata[aggdata['position_bucket'] == 'gt10_lte20'])
 
 #Save to csv for analysis
-aggdata.to_csv("cleanaggdata")
+#aggdata.to_csv("cleanaggdata")
 
