@@ -46,15 +46,37 @@ aggdata.head(20)
 
 for x in aggdata["position_bin"]:  
     aggdata[str(x)] = 0
+aggdata.info()
+aggdata.head()
 
 #finish logic for column addition
-for x in aggdata["position"]: 
-    if x < 50.0:
-        aggdata["columnrange1"] += 1
-        aggdata ["columnrange2"] += 1
-    
-aggdata.head(20)
+ for x in aggdata["position"]: 
+        if int(x) in range(0,51):
+            aggdata["(0, 50]"] = 1
+        elif int(x) in range(51,101):
+            aggdata ["(50, 100]"] = 1
+        elif int(x) in range(101,151):
+            aggdata["(100, 150]"] = 1
+        elif int(x) in range(151,201):
+           aggdata["(150, 200]"] = 1
+        elif int(x) in range (201,251):
+            aggdata["(200, 250]"] = 1
+        elif int(x) in range (251,301):
+            aggdata["(250, 300]"] = 1
+        elif int(x) in range (301, 351):
+            aggdata["(300, 350]"] = 1
+        elif int(x) in range (351,401):
+            aggdata["(350, 400]"] = 1
+        elif int(x) in range (401,451):
+            aggdata["(400,450"] = 1
+        elif int(x) in range (451,501):
+            aggdata["(450, 500]"] = 1
+
+
+     
+aggdata["(0, 50]"].head(80)
 aggdata.info()
+aggdata.head()
 
 #Incrementing
 z = 0
