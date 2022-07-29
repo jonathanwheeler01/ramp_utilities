@@ -5,10 +5,6 @@ Created on Wed Jul 27 14:49:26 2022
 @author: MayeKaypounyers
 """
 
-import os
-
-wd = os.getcwd()
-wd
 import pandas as pd
 
 import glob
@@ -36,7 +32,7 @@ for file in files:
     
     
     #Remove NA values
-    #aggdata=aggdata.dropna()    
+    aggdata=aggdata.dropna()    
     #aggdata.head()
     #aggdata.info()
     # records - 810828
