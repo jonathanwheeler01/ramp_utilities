@@ -5,70 +5,6 @@ Created on Mon Jul 25 08:32:26 2022
 @author: MayeKaypounyers
 """
 
-import pandas as pd
-
-<<<<<<< Updated upstream
-aggdata = pd.read_csv("C:/Users/MayeKaypounyers/Downloads/ramp_utilities-main/ramp_utilities-main/ir_data_subsets/montana_state_university_RAMP_data.csv")
-aggdata.head()
-aggdata.info()
-# records - 1048575
-
-#Remove non-citable conent
-aggdata = aggdata[aggdata.citableContent != "No"]
-aggdata.head()
-aggdata.info()
-#records - 810885
-
-#Remove no click data
-aggdata = aggdata[aggdata.clicks != 0]
-aggdata.head()
-aggdata.info()
-
-
-#Remove NA values
-aggdata=aggdata.dropna()    
-aggdata.head()
-aggdata.info()
-# records - 810828
-
-#Sort based on unique_item_uri
-aggdata = aggdata.sort_values(by="unique_item_uri")
-aggdata.head()
-aggdata.info()
-
-# Delete date, url, citableContent, and index columns
-aggdata = aggdata.drop(["date", "url", "citableContent","index"] , axis = 1)
-aggdata.info()
-
-
-# Create buckets for position
-aggdata["position_bin"] = pd.cut(x=aggdata["position"], bins = [0,50,100,150,200,250,300,350,400,450,500])
-aggdata.head(20)
-
-for x in aggdata["position_bin"]:  
-    aggdata[str(x)] = 0
-
-#finish logic for column addition
-for x in aggdata["position"]: 
-    if x < 50.0:
-        aggdata["columnrange1"] += 1
-        aggdata ["columnrange2"] += 1
-    
-aggdata.head(20)
-aggdata.info()
-
-#Incrementing
-z = 0
-for n in range(10):
-    z += 1
-print(z)
-
-
-#Save to csv for analysis
-aggdata.to_csv("cleanaggdata")
-
-=======
-
 import glob
 files = glob.glob("./ir_data_subsets/*.csv")
 print (files)
@@ -110,49 +46,17 @@ for file in files:
     aggdata.info()
     
     
-    print(len(pd.unique(aggdata["unique_item_uri"]))) #the number of unique uris
-    aggGrouped = aggdata.groupby('unique_item_uri') #creates an object that stores the groups
-    len(aggGrouped.groups) #length of groups in the object, counting each unique uri
-    
-    print(aggGrouped.groups.keys()) #retrieve the keys of the groups, the unique uri
-    
-    
-    aggGrouped.head() #new dataframe object that is group and those groups can be operated on
-    type(aggGrouped)
+    print(len(pd.unique(aggdata["unique_item_uri"])))
+    aggGrouped = aggdata.groupby('unique_item_uri') 
+    len(aggGrouped.groups) 
     
     print(aggGrouped.groups.keys())
     
-    # =============================================================================
-    # #one_item= aggGrouped.get_group('/1/9971')
-    # print(one_item)
-    # 
-    # #descriptive stats for item
-    # one_item.describe()
-    # =============================================================================
     
-    # #view one column of the group
-    # one_item["position"]
+    aggGrouped.head() 
+    type(aggGrouped)
     
-    # #aggregate stats about items in the group
-    # item_clicks = one_item['clicks'].sum()
-    # item_impressions = one_item['impressions'].sum()
-    # item_clickthrough = item_clicks / item_impressions
-    # print(item_clicks)
-    # print(item_impressions)
-    # print(item_clickthrough)
-    
-    
-    # type(one_item)
-    # for i, r in one_item.iterrows():
-    #     serp_pos = r["position"]
-    #     if serp_pos <= 10:
-    #         print('p1')
-    #     elif serp_pos > 10 and serp_pos <= 20:
-    #         print('p2')
-    #     elif serp_pos > 20 and serp_pos <=50:
-    #         print("p3-p5")
-    #     else:
-    #         print('p6+')
+    print(aggGrouped.groups.keys())
             
     cols = ['repository_id', 'unique_item_uri', 
             'ct_serp_occurrences', 'sum_clicks',
