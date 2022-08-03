@@ -5,7 +5,6 @@ Created on Wed Jul 27 14:49:26 2022
 @author: MayeKaypounyers
 """
 
-
 import pandas as pd
 
 import glob
