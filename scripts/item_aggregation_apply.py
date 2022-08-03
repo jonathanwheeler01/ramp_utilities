@@ -32,7 +32,7 @@ for file in files:
     
     
     #Remove NA values
-    #aggdata=aggdata.dropna()    
+    aggdata=aggdata.dropna()   
     #aggdata.head()
     #aggdata.info()
     # records - 810828
