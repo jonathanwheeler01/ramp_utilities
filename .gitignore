@@ -4,4 +4,5 @@ scripts/__pycache__/*
 *~
 *.csv
 *.zip
+metadata_database/*
 !supplementary_data/RAMP_repository_info.csv
