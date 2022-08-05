@@ -108,7 +108,7 @@ for file in files:
     out_df.info()
     out_df.head(30)
     
-    out_df.to_csv("./aggregated_ir_subsets/" + repo_id +"grouped_logic.csv", index=False)
+    out_df.to_csv("./ir_subsets_itemagg/" + repo_id +"grouped_logic_agg.csv", index=False)
     
     
 >>>>>>> Stashed changes
