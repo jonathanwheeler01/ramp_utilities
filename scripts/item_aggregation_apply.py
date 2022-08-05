@@ -93,4 +93,4 @@ for file in files:
     out_df2.info()
     out_df2.head()
     
-    out_df2.to_csv("./ir_data_subsets/" + repo_id +"_RAMP_aggregated.csv", index=False)
+    out_df2.to_csv("./ir_subsets_itemagg/" + repo_id +"apply_logic_agg", index=False)
