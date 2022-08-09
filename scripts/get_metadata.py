@@ -3,7 +3,7 @@ import sqlite3
 import json
 
 # Create a connection to a database
-con = sqlite3.connect('./metadata_database/rampdata.db')
+con = sqlite3.connect('./metadata_database/repository_database.db')
 
 # intialize a cursor to interact with the database
 cur = con.cursor()
@@ -36,7 +36,7 @@ def metadata_check(repository_id):
 
 def records_query(ir_ids):
     records_ct = 0
-    con = sqlite3.connect('../metadata_database/irmeta.sqlite')
+    con = sqlite3.connect('../metadata_database/repository_database.db')
     cur = con.cursor()
     res = cur.execute('SELECT ir FROM oairoot')
     ir_ids_from_db = res.fetchall()
