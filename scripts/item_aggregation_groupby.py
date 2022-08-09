@@ -6,65 +6,41 @@ Created on Mon Jul 25 08:32:26 2022
 """
 
 import glob
-files = glob.glob("./ir_data_subsets/*.csv")
-print (files)
+import pandas as pd
+
+files = glob.glob("../ir_data_subsets/*.csv")
+# print (files)
+
+cols = ['repository_id', 'unique_item_uri', 
+        'ct_serp_occurrences', 'sum_clicks',
+        'sum_impressions', 'clickthrough_ratio',
+        'mean_pos', 'median_pos', 'std_pos',
+        'ct_pos_lte10', 'ct_pos_gt10_lte20',
+        'ct_pos_gt20_lte50', 'ct_pos_gt50_lte100',
+        'ct_pos_gt100']
 
 for file in files:
     ir = file
     
     #relative
     aggdata = pd.read_csv(ir)
-    aggdata.head()
-    aggdata.info()
-    # records - 1048575
     
     #Remove non-citable conent
     aggdata = aggdata[aggdata.citableContent != "No"].copy()
-    aggdata.head()
-    aggdata.info()
-    #records - 810885
-    
+
     #Remove no click data
     aggdata = aggdata[aggdata.clicks != 0].copy()
-    aggdata.head()
-    aggdata.info()
-    
-    
+        
     #Remove NA values
     aggdata=aggdata.dropna()    
-    aggdata.head()
-    aggdata.info()
-    # records - 810828
     
     #Sort based on unique_item_uri
     aggdata = aggdata.sort_values(by="unique_item_uri")
-    aggdata.head()
-    aggdata.info()
-    
+
     # Delete date, url, citableContent, and index columns
     aggdata = aggdata.drop(["date", "url", "citableContent","index"] , axis = 1).copy()
-    aggdata.info()
     
-    
-    print(len(pd.unique(aggdata["unique_item_uri"])))
     aggGrouped = aggdata.groupby('unique_item_uri') 
-    len(aggGrouped.groups) 
-    
-    print(aggGrouped.groups.keys())
-    
-    
-    aggGrouped.head() 
-    type(aggGrouped)
-    
-    print(aggGrouped.groups.keys())
-            
-    cols = ['repository_id', 'unique_item_uri', 
-            'ct_serp_occurrences', 'sum_clicks',
-            'sum_impressions', 'clickthrough_ratio',
-            'mean_pos', 'median_pos', 'std_pos',
-            'ct_pos_lte10', 'ct_pos_gt10_lte20',
-            'ct_pos_gt20_lte50', 'ct_pos_gt50_lte100',
-            'ct_pos_gt100']
     
     out_df = pd.DataFrame(columns=cols)
     
@@ -72,8 +48,8 @@ for file in files:
     
     out_df = pd.DataFrame(columns=cols)
     
-    repo_id = str(aggdata["repository_id"].unique())
-    print(repo_id)
+    repo_id = aggdata["repository_id"].unique()[0]
+    # print(repo_id)
     for name, group in aggGrouped:
         uid = name
         ct_serp = len(group)
@@ -108,4 +84,4 @@ for file in files:
     out_df.info()
     out_df.head(30)
     
-    out_df.to_csv("./ir_subsets_itemagg/" + repo_id +"grouped_logic_agg.csv", index=False)
+    out_df.to_csv("../ir_subsets_itemagg/" + repo_id + "_grouped_logic_agg.csv", index=False)

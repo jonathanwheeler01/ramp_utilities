@@ -6,70 +6,61 @@ Created on Wed Jul 27 14:49:26 2022
 """
 
 import pandas as pd
-
 import glob
-files = glob.glob("./ir_data_subsets/*.csv")
-print (files)
 
-for file in files: 
+
+def pos_buckets_per_row(pos_value):
+    if pos_value <= 10:
+        return 'lte10'
+    elif pos_value > 10 and pos_value <= 20:
+        return 'gt10_lte20'
+    elif pos_value > 20 and pos_value <= 50:
+        return 'gt20_lte50'
+    elif pos_value > 50 and pos_value <= 100:
+        return 'gt50_lte100'
+    else:
+        return 'gt100'
+
+
+files = glob.glob("../ir_data_subsets/*.csv")
+# print (files)
+
+cols = ['repository_id', 'unique_item_uri',
+        'ct_serp_occurrences', 'sum_clicks',
+        'sum_impressions', 'clickthrough_ratio',
+        'mean_pos', 'median_pos', 'std_pos',
+        'ct_pos_lte10', 'ct_pos_gt10_lte20',
+        'ct_pos_gt20_lte50', 'ct_pos_gt50_lte100',
+        'ct_pos_gt100']
+
+for file in files[1:]:
+    print(file)
     ir = file
 
     aggdata = pd.read_csv(ir)
-    #aggdata.head()
-    #aggdata.info()
-    # records - 1048575
     
     #Remove non-citable conent
     aggdata = aggdata[aggdata.citableContent == "Yes"].copy()
-    #aggdata.head()
-    #aggdata.info()
-    #records - 810885
-    
+
     #Remove no click data
     aggdata = aggdata[aggdata.clicks > 0].copy()
-    #aggdata.head()
-    #aggdata.info()
     
     
     #Remove NA values
-    aggdata=aggdata.dropna()   
-    #aggdata.head()
-    #aggdata.info()
-    # records - 810828
-    
-    
-    
-    def pos_buckets_per_row(pos_value):
-        if pos_value <= 10:
-            return 'lte10'
-        elif pos_value > 10 and pos_value <= 20:
-            return 'gt10_lte20'
-        elif pos_value > 20 and pos_value <= 50:
-            return 'gt20_lte50'
-        elif pos_value > 50 and pos_value <= 100:
-            return 'gt50_lte100'
-        else:
-            return 'gt100'
-    
+    aggdata=aggdata.dropna()
+
     aggdata['position_bucket'] = aggdata['position'].apply(pos_buckets_per_row)
     aggdata.info()
     aggdata[['position', 'position_bucket']].head()
     
     aggGrouped2 = aggdata.groupby('unique_item_uri')
-    len(aggGrouped2.groups)
+    # len(aggGrouped2.groups)
     
     # apply the above to an output
-    cols = ['repository_id', 'unique_item_uri', 
-            'ct_serp_occurrences', 'sum_clicks',
-            'sum_impressions', 'clickthrough_ratio',
-            'mean_pos', 'median_pos', 'std_pos',
-            'ct_pos_lte10', 'ct_pos_gt10_lte20',
-            'ct_pos_gt20_lte50', 'ct_pos_gt50_lte100',
-            'ct_pos_gt100']
-    
     out_df2 = pd.DataFrame(columns=cols)
     
-    repo_id = aggdata["repository_id"].unique()
+    repo_id = aggdata["repository_id"].unique()[0]
+    print(repo_id)
     for name, group in aggGrouped2:
         uid = name
         ct_serp = len(group)
@@ -93,4 +84,4 @@ for file in files:
     out_df2.info()
     out_df2.head()
     
-    out_df2.to_csv("./ir_subsets_itemagg/" + repo_id +"apply_logic_agg", index=False)
+    out_df2.to_csv("../ir_subsets_itemagg/" + repo_id +"_apply_logic_agg.csv", index=False)
