@@ -7,3 +7,4 @@ scripts/__pycache__/*
 metadata_database/*
 !supplementary_data/RAMP_repository_info.csv
 *.db
+config/*
