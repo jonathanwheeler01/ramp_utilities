@@ -5,7 +5,7 @@ from utilities import *   # pandas is imported here
 def subset_ramp_by_ir(ir_id, ir_platform):
     print("\n", ir_id)
     # get a list of zip files
-    zipfile_list = glob.glob("..zipped_data/2021_RAMP_data/*page-clicks.zip") #one period may need to be removed from the beginning of file path
+    zipfile_list = glob.glob("../zipped_data/*/*page-clicks.zip") #one period may need to be removed from the beginning of file path
 
     # Create a dataframe for the IR's RAMP data
     # by reading and subsetting the first zip file
@@ -31,12 +31,12 @@ ir_info = pd.read_csv("../supplementary_data/RAMP_repository_info.csv") #one per
 # print(ir_info.info())
 
 # Create a list of IR to exclude as needed
-excluded_ir = ['university_waterloo', 'boston_university',"university_nevada_reno"]
+excluded_ir = []
 
 # To test things we will use an 'included_ir' list
 included_ir = ['montana_state_university']
  
-test_run = True    
+test_run = False    
 
 if test_run:
     for ir in included_ir:
