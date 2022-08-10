@@ -41,10 +41,6 @@ pwd = config["password"]
 conn = psycopg2.connect("dbname='%s' user='%s' password='%s'" % (db, u, pwd))
 cur = conn.cursor()
 
-# create a list of zip files
-# we only want page-click data
-filelist = glob.glob("../raw_zipped_data/*/*_page-clicks.zip")
-
 # read the RAMP_repository_info
 ramp_ir_info = pd.read_csv("../supplementary_data/RAMP_repository_info.csv")
 
