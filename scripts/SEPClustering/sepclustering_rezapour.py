@@ -74,7 +74,6 @@ _ = plt.scatter(best_K, best_combined_score, s = 50, color = "red")
 _ = plt.xlabel(r"K", fontsize = 15)
 _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 
-# The K is moving with the las inertia. Should I go with 3/4 or 10? If I put in a K range of 1,21, the best combined K would be 20.  
 
 ################################################################ CLUSTERING METHOD FROM DR. REZAPOUR ##################################################################################
 
@@ -94,7 +93,25 @@ y_hat = kmeans.predict(X)
 model_c_x = []
 model_c_y = []
 
-## loop through the clusters and find their centers -- Invalid Index Error
+## loop through the clusters and find their centers -- 
+for label in set(y_hat):
+    model_c_x.append(np.mean(X[y_hat==label, 0])) ### Invalid Index Error
+    model_c_y.append(np.mean(X[y_hat==label, 1]))
+        
+## initialize a wide figure
+fig = plt.figure(figsize = (12,6))
+
+## plot the original data and "true" centers
+fig.add_axes([0,0,0.5,1])
+_ = plt.scatter(X[:, 0], X[:, 1], s=50, c = y)
+_ = plt.scatter(c_x, c_y, s=50, color = "blue")
+
+## plot the modeled data and "predicted" centers
+fig.add_axes([0.5,0,0.5,1])
+_ = plt.scatter(X[:, 0], X[:, 1], s=50, c = y_hat)
+_ = plt.scatter(model_c_x, model_c_y, s=50, color = "red")
+_ = plt.scatter(c_x, c_y, s=50, color = "blue")
+
 for label in set(y_hat):
     model_c_x.append(np.mean(X[y_hat==label, 0]))
     model_c_y.append(np.mean(X[y_hat==label, 1]))
