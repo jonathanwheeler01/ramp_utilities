@@ -35,7 +35,7 @@ def extract_subset_ramp_data(zip_file, ir_repo_id):
 
 def make_dspace_item_uri(bitstream_url):
     p = urlparse(bitstream_url)
-    handle = re.compile("\/[0-9\?\.]+\/[0-9][0-9]+")
+    handle = re.compile("\/[0-9\?\.]+\/[0-9][0-9]+\/*")
     h = handle.search(p.path)
     if h:
         return h.group()
