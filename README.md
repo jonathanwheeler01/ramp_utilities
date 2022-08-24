@@ -23,7 +23,9 @@ available going back to 2017, it is recommended to use data from 2019
 onward:
 
 > 2019: <https://doi.org/10.5061/dryad.crjdfn342>
+
 > 2020: <https://doi.org/10.5061/dryad.dv41ns1z4>
+
 > 2021: <https://doi.org/10.5061/dryad.1rn8pk0tz>
 
 As required, paths to downloaded data should be updated.
