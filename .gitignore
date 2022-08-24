@@ -9,3 +9,4 @@ metadata_database/*
 *.db
 config_files/*
 config_files\*
+zipped_data/*
