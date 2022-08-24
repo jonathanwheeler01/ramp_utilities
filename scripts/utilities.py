@@ -4,6 +4,7 @@ import re
 from urllib.parse import urlparse
 
 
+
 def extract_subset_ramp_data(zip_file, ir_repo_id):
     """This function tries to conserve memory by opening zipped RAMP monthly data
        files one at a time and subsetting the data to a single repository's data
@@ -35,7 +36,7 @@ def extract_subset_ramp_data(zip_file, ir_repo_id):
 
 def make_dspace_item_uri(bitstream_url):
     p = urlparse(bitstream_url)
-    handle = re.compile("\/[0-9\?\.]+\/[0-9][0-9]+\/*")
+    handle = re.compile("\/[0-9\?\.]+\/[0-9][0-9]+")
     h = handle.search(p.path)
     if h:
         return h.group()

@@ -1,12 +1,13 @@
-import glob
 from utilities import *   # pandas is imported here
+import glob
 
 
 def subset_ramp_by_ir(ir_id, ir_platform):
+    zipfile_path = "../../zipped_data/*/"
     print("\n", ir_id)
     # get a list of zip files
-    zipfile_list = glob.glob("../zipped_data/*/*page-clicks.zip") #one period may need to be removed from the beginning of file path
-
+    zipfile_list = glob.glob(zipfile_path + "*_page-clicks.zip") 
+    
     # Create a dataframe for the IR's RAMP data
     # by reading and subsetting the first zip file
     print(zipfile_list[0])
@@ -20,15 +21,14 @@ def subset_ramp_by_ir(ir_id, ir_platform):
 
     print("\nnrows in dataframe:", len(ir_data))
     ir_data = construct_item_uids(ir_data, ir_platform)
-    ir_data.to_csv("../ir_data_subsets/" + ir_id + "_RAMP_data.csv", index=False)
+    ir_data.to_csv("../../ir_data_subsets/" + ir_id + "_RAMP_data.csv", index=False)
     print(ir_id, "done!")
 
     return
 
 
 # Read the IR info file
-ir_info = pd.read_csv("../supplementary_data/RAMP_repository_info.csv") #one period may need to be removed from the beginning of file path
-# print(ir_info.info())
+ir_info = pd.read_csv("../../supplementary_data/RAMP_repository_info.csv")
 
 # Create a list of IR to exclude as needed
 excluded_ir = []
@@ -36,7 +36,7 @@ excluded_ir = []
 # To test things we will use an 'included_ir' list
 included_ir = ['montana_state_university']
  
-test_run = False    
+test_run = True    
 
 if test_run:
     for ir in included_ir:
