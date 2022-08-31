@@ -36,7 +36,7 @@ excluded_ir = ['university_waterloo', 'boston_university',"university_nevada_ren
 # To test things we will use an 'included_ir' list
 included_ir = ['montana_state_university']
  
-test_run = True    
+test_run = False    
 
 if test_run:
     for ir in included_ir:
