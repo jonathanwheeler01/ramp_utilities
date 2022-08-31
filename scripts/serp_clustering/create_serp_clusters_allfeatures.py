@@ -45,7 +45,7 @@ df.isnull().sum()
 
 #remove blank columns and repo id
 #delete additional columns
-df.drop(["Unnamed: 0","Unnamed: 0.1", "repository_id"], axis =1, inplace=True)
+df.drop(["Unnamed: 0", "repository_id"], axis =1, inplace=True)
 
 #set index as unique uri
 df.set_index("unique_item_uri", inplace = True)
@@ -69,13 +69,13 @@ df.head(20)
 scaled_data.head(20)
 
 #save scaled data
-scaled_data.to_csv( "./clustering_data/scaled_data.csv")
+scaled_data.to_csv( "./clustered_and_scaled_data/allfeatures_scaled_data.csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
 inertias = []
 Ks = []
-for K in range(1,15):
+for K in range(1,20):
     ## initialize the algorithm
     kmeans = KMeans(n_clusters=K)
     ## run the algorithm on the data
@@ -109,7 +109,7 @@ _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 
 ############################################################## K-MEANS FROM YOUTUBE ############################################################################
 #Create K-Means Object 
-kmeans = KMeans(n_clusters=5)
+kmeans = KMeans(n_clusters=13)
 
 #fit the data to the model and apply the cluster numbers to the dataframe
 scaled_data['serp_cluster_allfeatures'] = kmeans.fit_predict(scaled_data)
@@ -118,26 +118,9 @@ scaled_data.head(20)
 scaled_data.info()
 
 #Remove all feature data
-scaled_data.drop(["sum_clicks","sum_impressions","mean_pos", 
+scaled_data.drop([ "sum_clicks","sum_impressions", "clickthrough_ratio","mean_pos", 
          "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", "ct_pos_gt50_lte100", "ct_pos_gt100"], axis =1, inplace=True)
 
-#check all clusters
-scaled_data0 = scaled_data[scaled_data.cluster==0] 
-scaled_data1 = scaled_data[scaled_data.cluster==1]
-scaled_data2 = scaled_data[scaled_data.cluster==2]
-scaled_data3= scaled_data[scaled_data.cluster==3]
-scaled_data4 =scaled_data[scaled_data.cluster== 4]
-
-print(scaled_data0)
-print(scaled_data1)
-print(scaled_data2)
-print(scaled_data3)
-print(scaled_data4)
-
-
-#check data frame
-scaled_data.info()
-scaled_data.head(20)
 
 
 #reattach respository ID
@@ -147,8 +130,9 @@ lookup_table.head()
 
 clustered_data_uri= scaled_data.merge(lookup_table, on="unique_item_uri")
 clustered_data_uri.head()
+clustered_data_uri.info()
 
 
 #print data
-clustered_data_uri.to_csv( "./clustering_data/allfeatures_clustered_data.csv", index = "unique_item_uri")
+clustered_data_uri.to_csv( "./clustered_and_scaled_data/allfeatures_clustered_data.csv", index = "unique_item_uri")
 

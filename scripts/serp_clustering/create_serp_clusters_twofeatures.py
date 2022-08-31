@@ -26,7 +26,6 @@ from sklearn.preprocessing import MinMaxScaler
 
 # import glob
 files = glob.glob("./ir_subsets_itemagg/*.csv")
-print (files)
 
 #combine files
 all_files = glob.glob("./ir_subsets_itemagg/*.csv")
@@ -45,8 +44,8 @@ df.isnull().sum()
 
 #remove remove blank columns and those not needed in the 2 feature analysis
 #delete additional columns
-df.drop(["Unnamed: 0","Unnamed: 0.1" , "mean_pos", 
-         "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", "ct_pos_gt50_lte100", "ct_pos_gt100"
+df.drop(["Unnamed: 0.1", "mean_pos", "clickthrough_ratio",
+         "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", "ct_pos_gt50_lte100", "ct_pos_gt100",
          "repository_id"], axis =1, inplace=True)
 
 #set index as unique uri
@@ -71,7 +70,7 @@ df.head(20)
 scaled_data.head(20)
 
 #save scaled data
-scaled_data.to_csv( "./clustering_data/scaled_data.csv")
+scaled_data.to_csv( "./clustering_data/twofeatures_scaled_data.csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
@@ -122,19 +121,6 @@ scaled_data.info()
 #remove clicks and impressions data
 scaled_data.drop(["sum_clicks","sum_impressions"], axis =1, inplace=True)
 
-#check all clusters
-scaled_data0 = scaled_data[scaled_data.cluster==0] 
-scaled_data1 = scaled_data[scaled_data.cluster==1]
-scaled_data2 = scaled_data[scaled_data.cluster==2]
-scaled_data3= scaled_data[scaled_data.cluster==3]
-scaled_data4 =scaled_data[scaled_data.cluster== 4]
-
-print(scaled_data0)
-print(scaled_data1)
-print(scaled_data2)
-print(scaled_data3)
-print(scaled_data4)
-
 
 #check data frame
 scaled_data.info()
@@ -150,4 +136,4 @@ clustered_data_uri.head()
 
 
 #print data
-clustered_data_uri.to_csv( "./clustering_data/twofeatures_clustered__data.csv", index = "unique_item_uri")
+clustered_data_uri.to_csv( "./clustered_and_scaled_data/twofeatures_clustered__data.csv", index = "unique_item_uri")
