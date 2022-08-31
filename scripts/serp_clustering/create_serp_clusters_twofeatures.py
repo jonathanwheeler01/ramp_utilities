@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed Aug 31 12:34:52 2022
+
+@author: MayeKaypounyers
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Spyder Editor
 
 This script was created to determine item clusters based on RAMP provided Search Engine Results Page (SERP) data.
 Features measured are:
-    - Count of SERP occurences
     - Sum of Item Clicks
     - Sum of Item Impressions
-    -Click-through Ratio
-    - Count of  Page position less than or equal to 10
-    - Count of Page position greater than 10 but less than or equal to 20
-    - Count of Page position greater than 20 but less than or equal to 50
-    - Count of Page position greater than 50 but less than or equal to 100
-    - Count of Page position greater than 100
 """
 
 ########################################################### ENVIRONEMENT SETUP AND DATA IMPORT ###############################################################
@@ -32,20 +32,22 @@ print (files)
 all_files = glob.glob("./ir_subsets_itemagg/*.csv")
 df_from_each_file = (pd.read_csv(f, sep=',') for f in all_files)
 df_merged   = pd.concat(df_from_each_file, ignore_index=True)
-df_merged.to_csv( "./ir_subsets_itemagg/merged.csv")
+df_merged.to_csv( "./ir_subsets_itemagg/merged_ramp_twofeatures.csv")
 
 
 # Import data set 
-df= pd.read_csv("./ir_subsets_itemagg/merged.csv")
+df= pd.read_csv("./ir_subsets_itemagg/merged_ramp_twofeatures.csv")
 
 #check imported data
 df.head()
 df.info()
 df.isnull().sum()
 
-#remove standard deviation column since it contains blanks and added columns from import
+#remove remove blank columns and those not needed in the 2 feature analysis
 #delete additional columns
-df.drop(['std_pos',"Unnamed: 0","Unnamed: 0.1" , "mean_pos", "median_pos", "repository_id"], axis =1, inplace=True)
+df.drop(["Unnamed: 0","Unnamed: 0.1" , "mean_pos", 
+         "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", "ct_pos_gt50_lte100", "ct_pos_gt100"
+         "repository_id"], axis =1, inplace=True)
 
 #set index as unique uri
 df.set_index("unique_item_uri", inplace = True)
@@ -112,10 +114,13 @@ _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 kmeans = KMeans(n_clusters=5)
 
 #fit the data to the model and apply the cluster numbers to the dataframe
-scaled_data['sep_cluster'] = kmeans.fit_predict(scaled_data)
+scaled_data['serp_cluster_twofeatures'] = kmeans.fit_predict(scaled_data)
 
 scaled_data.head(20)
 scaled_data.info()
+
+#remove clicks and impressions data
+scaled_data.drop(["sum_clicks","sum_impressions"], axis =1, inplace=True)
 
 #check all clusters
 scaled_data0 = scaled_data[scaled_data.cluster==0] 
@@ -145,5 +150,4 @@ clustered_data_uri.head()
 
 
 #print data
-clustered_data_uri.to_csv( "./clustering_data/clustered_scaled_data.csv", index = "unique_item_uri")
-
+clustered_data_uri.to_csv( "./clustering_data/twofeatures_clustered__data.csv", index = "unique_item_uri")

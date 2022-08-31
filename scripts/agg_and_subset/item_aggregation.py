@@ -3,9 +3,13 @@
 Created on Mon Jul 25 08:32:26 2022
 
 @author: MayeKaypounyers
+
+This code iterates through the ir_subsets csv files to aggregated the files by unique_item_uri
+
 """
 
 import glob
+import pandas as pd
 files = glob.glob("./ir_data_subsets/*.csv")
 print (files)
 
@@ -97,7 +101,7 @@ for file in files:
                 p10 += 1
             else:
                 p10plus += 1
-        tdf = pd.DataFrame([[repo_id, uid, ct_serp, i_clicks,
+        tdf = pd.DataFrame([[repo_id, uid,  i_clicks,
                              i_impressions, i_clickthrough,
                              mean_pos, med_pos,
                              p1, p2, p5, p10, p10plus]], columns=cols)
@@ -106,7 +110,7 @@ for file in files:
     out_df.info()
     out_df.head(30)
     
-    out_df.to_csv("./ir_subsets_itemagg/" + repo_id +"grouped_logic_agg.csv", index=False)
+    out_df.to_csv("./ir_subsets_itemagg/" + repo_id +"_grouped_logic_agg.csv", index=False) 
     
     
 >>>>>>> Stashed changes
