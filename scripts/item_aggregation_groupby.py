@@ -59,9 +59,9 @@ for file in files:
     print(aggGrouped.groups.keys())
             
     cols = ['repository_id', 'unique_item_uri', 
-            'ct_serp_occurrences', 'sum_clicks',
+             'sum_clicks',
             'sum_impressions', 'clickthrough_ratio',
-            'mean_pos', 'median_pos', 'std_pos',
+            'mean_pos', 'median_pos',
             'ct_pos_lte10', 'ct_pos_gt10_lte20',
             'ct_pos_gt20_lte50', 'ct_pos_gt50_lte100',
             'ct_pos_gt100']
@@ -76,13 +76,11 @@ for file in files:
     print(repo_id)
     for name, group in aggGrouped:
         uid = name
-        ct_serp = len(group)
         i_clicks = group['clicks'].sum()
         i_impressions = group['impressions'].sum()
         i_clickthrough = round(i_clicks / i_impressions, 3)
         mean_pos = group['position'].mean()
         med_pos = group['position'].median()
-        std_pos = group['position'].std()
         p1 = 0
         p2 = 0
         p5 = 0
@@ -101,7 +99,7 @@ for file in files:
                 p10plus += 1
         tdf = pd.DataFrame([[repo_id, uid, ct_serp, i_clicks,
                              i_impressions, i_clickthrough,
-                             mean_pos, med_pos, std_pos,
+                             mean_pos, med_pos,
                              p1, p2, p5, p10, p10plus]], columns=cols)
         out_df = pd.concat([out_df, tdf])
         
