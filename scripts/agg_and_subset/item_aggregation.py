@@ -76,7 +76,6 @@ for file in files:
     
     out_df = pd.DataFrame(columns=cols)
     
-    repo_id = str(aggdata["repository_id"].unique())
     repo_id = str(aggdata["repository_id"].unique()[0])
     print(repo_id)
     for name, group in aggGrouped:
