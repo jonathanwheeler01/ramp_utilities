@@ -77,6 +77,7 @@ for file in files:
     out_df = pd.DataFrame(columns=cols)
     
     repo_id = str(aggdata["repository_id"].unique())
+    repo_id = str(aggdata["repository_id"].unique()[0])
     print(repo_id)
     for name, group in aggGrouped:
         uid = name
@@ -112,5 +113,3 @@ for file in files:
     
     out_df.to_csv("./ir_subsets_itemagg/" + repo_id +"_grouped_logic_agg.csv", index=False) 
     
-    
->>>>>>> Stashed changes

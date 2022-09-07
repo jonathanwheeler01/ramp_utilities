@@ -43,10 +43,8 @@ df.info()
 df.isnull().sum()
 
 #remove remove blank columns and those not needed in the 2 feature analysis
-#delete additional columns
-df.drop(["Unnamed: 0.1", "mean_pos", "clickthrough_ratio",
-         "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", "ct_pos_gt50_lte100", "ct_pos_gt100",
-         "repository_id"], axis =1, inplace=True)
+df = df[["unique_item_uri",'sum_clicks','sum_impressions']].copy()
+
 
 #set index as unique uri
 df.set_index("unique_item_uri", inplace = True)
@@ -70,13 +68,13 @@ df.head(20)
 scaled_data.head(20)
 
 #save scaled data
-scaled_data.to_csv( "./clustering_data/twofeatures_scaled_data.csv")
+scaled_data.to_csv( "./clustered_and_scaled_data/twofeatures_scaled_data.csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
 inertias = []
 Ks = []
-for K in range(1,15):
+for K in range(1,11):
     ## initialize the algorithm
     kmeans = KMeans(n_clusters=K)
     ## run the algorithm on the data

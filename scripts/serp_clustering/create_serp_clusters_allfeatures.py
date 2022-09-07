@@ -73,6 +73,7 @@ scaled_data.to_csv( "./clustered_and_scaled_data/allfeatures_scaled_data.csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
+
 inertias = []
 Ks = []
 for K in range(1,20):
