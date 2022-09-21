@@ -16,6 +16,7 @@ Features measured are:
 """
 
 ########################################################### ENVIRONEMENT SETUP AND DATA IMPORT ###############################################################
+
 #import required libraries 
 import numpy as np
 import pandas as pd
@@ -23,6 +24,7 @@ import matplotlib.pyplot as plt
 import glob
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
+
 
 # import glob
 files = glob.glob("./ir_subsets_itemagg/*.csv")
@@ -32,11 +34,12 @@ print (files)
 all_files = glob.glob("./ir_subsets_itemagg/*.csv")
 df_from_each_file = (pd.read_csv(f, sep=',') for f in all_files)
 df_merged   = pd.concat(df_from_each_file, ignore_index=True)
-df_merged.to_csv( "./ir_subsets_itemagg/merged_ramp_allfeatures.csv")
+df_merged = df_merged.drop_duplicates(keep = "first")
+df_merged.to_csv( "./merged_data/merged_ramp_allfeatures.csv")
 
 
 # Import data set 
-df= pd.read_csv("./ir_subsets_itemagg/merged_ramp_allfeatures.csv")
+df= pd.read_csv("./merged_data/merged_ramp_allfeatures.csv")
 
 #check imported data
 df.head()
@@ -45,12 +48,22 @@ df.isnull().sum()
 
 #remove blank columns and repo id
 #delete additional columns
-df.drop(["Unnamed: 0", "repository_id"], axis =1, inplace=True)
+df = df[["repository_id",'unique_item_uri','sum_clicks', 'sum_impressions', 
+         'clickthrough_ratio','mean_pos','median_pos','ct_pos_lte10',
+         'ct_pos_gt10_lte20', 'ct_pos_gt20_lte50', 'ct_pos_gt50_lte100',
+         'ct_pos_gt100']].copy()
+
+#create a merged column based on repository id and unique item uri
+df['unique_id'] = df['repository_id'].map(str) + '-' + df['unique_item_uri'].map(str) 
+df.head()  
 
 #set index as unique uri
-df.set_index("unique_item_uri", inplace = True)
+df.set_index("unique_id", inplace = True)
 df.info()
 
+#remove unneccessary columns that were joined
+df.drop(labels=["repository_id","unique_item_uri"], axis=1, inplace=True)
+df.info()
 ################################################################# SCALING THE DATA #######################################################################
 
 # define min max scaler
@@ -69,7 +82,7 @@ df.head(20)
 scaled_data.head(20)
 
 #save scaled data
-scaled_data.to_csv( "./clustered_and_scaled_data/allfeatures_scaled_data.csv")
+scaled_data.to_csv( "./clustering_and_scaling_data/allfeatures_scaled_data.csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
@@ -120,20 +133,27 @@ scaled_data.info()
 
 #Remove all feature data
 scaled_data.drop([ "sum_clicks","sum_impressions", "clickthrough_ratio","mean_pos", 
-         "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", "ct_pos_gt50_lte100", "ct_pos_gt100"], axis =1, inplace=True)
+         "median_pos", "ct_pos_lte10", "ct_pos_gt10_lte20", "ct_pos_gt20_lte50", 
+         "ct_pos_gt50_lte100", "ct_pos_gt100"], axis =1, inplace=True)
+
+#reset index
+scaled_data.reset_index(inplace=True)
+
+#Split unique id column
+scaled_data[['repository_id','unique_item_uri']] = scaled_data['unique_id'].str.split("-", expand=True)
+scaled_data.info()
+
+#remove unique_id column
+scaled_data.drop("unique_id",axis=1, inplace=True)
+scaled_data.head()
+
+clustered_data=scaled_data
 
 
-
-#reattach respository ID
-lookup_table = pd.read_excel("./supplementary_data/uri_lookup.xlsx")
-lookup_table.head()
-
-
-clustered_data_uri= scaled_data.merge(lookup_table, on="unique_item_uri")
-clustered_data_uri.head()
-clustered_data_uri.info()
+clustered_data.head()
+clustered_data.info()
 
 
 #print data
-clustered_data_uri.to_csv( "./clustered_and_scaled_data/allfeatures_clustered_data.csv", index = "unique_item_uri")
+clustered_data.to_csv( "./clustering_and_scaling_data/allfeatures_clustered_data.csv", index = "unique_item_uri")
 

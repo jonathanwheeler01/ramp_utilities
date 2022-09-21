@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug 31 12:34:52 2022
-
-@author: MayeKaypounyers
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Spyder Editor
 
 This script was created to determine item clusters based on RAMP provided Search Engine Results Page (SERP) data.
 Features measured are:
-    - Sum of Item Clicks
-    - Sum of Item Impressions
+    -Click-through Ratio
 """
 
 ########################################################### ENVIRONEMENT SETUP AND DATA IMPORT ###############################################################
+
 #import required libraries 
 import numpy as np
 import pandas as pd
@@ -24,6 +17,7 @@ import glob
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
 
+
 # import glob
 files = glob.glob("./ir_subsets_itemagg/*.csv")
 
@@ -31,11 +25,11 @@ files = glob.glob("./ir_subsets_itemagg/*.csv")
 all_files = glob.glob("./ir_subsets_itemagg/*.csv")
 df_from_each_file = (pd.read_csv(f, sep=',') for f in all_files)
 df_merged   = pd.concat(df_from_each_file, ignore_index=True)
-df_merged.to_csv( "./merged_data/merged_ramp_twofeatures.csv")
+df_merged.to_csv( "./merged_data/merged_ramp_clickthrough.csv")
 
 
 # Import data set 
-df= pd.read_csv("./merged_data/merged_ramp_twofeatures.csv")
+df= pd.read_csv("./merged_data/merged_ramp_clickthrough.csv")
 
 #check imported data
 df.head()
@@ -43,7 +37,7 @@ df.info()
 df.isnull().sum()
 
 #remove remove blank columns and those not needed in the 2 feature analysis
-df = df[["repository_id","unique_item_uri",'sum_clicks','sum_impressions']].copy()
+df = df[["repository_id","unique_item_uri",'clickthrough_ratio']].copy()
 
 #create a merged column based on repository id and unique item uri
 df['unique_id'] = df['repository_id'].map(str) + '-' + df['unique_item_uri'].map(str) 
@@ -57,35 +51,18 @@ df.info()
 df.drop(labels=["repository_id","unique_item_uri"], axis=1, inplace=True)
 df.info()
 
-################################################################# SCALING THE DATA #######################################################################
 
-# define min max scaler
-scaler = MinMaxScaler()
-
-# transform data
-scaled_data=  scaler.fit_transform(df)
-scaled_data = pd.DataFrame(scaled_data)
-scaled_data.head()
-scaled_data.columns = df.columns
-scaled_data.index = df.index #will this keep the index correct?
-
-scaled_data.info()
-df.info()
-df.head(20)
-scaled_data.head(20)
-
-#save scaled data
-scaled_data.to_csv( "./clustering_and_scaling_data/twofeatures_scaled_data.csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
+
 inertias = []
 Ks = []
-for K in range(1,11):
+for K in range(1,35):
     ## initialize the algorithm
     kmeans = KMeans(n_clusters=K)
     ## run the algorithm on the data
-    kmeans.fit(scaled_data)
+    kmeans.fit(df)
 
     Ks.append(K)
     inertias.append(kmeans.inertia_)
@@ -111,45 +88,29 @@ _ = plt.scatter(best_K, best_combined_score, s = 50, color = "red")
 _ = plt.xlabel(r"K", fontsize = 15)
 _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 
-#Code follows the last number in the K range (in this case K is equal to 10, but when 11 is changed to 15, K becomes 14)
 
 ############################################################## K-MEANS FROM YOUTUBE ############################################################################
 #Create K-Means Object 
-kmeans = KMeans(n_clusters=13)
+kmeans = KMeans(n_clusters=5)
 
 #fit the data to the model and apply the cluster numbers to the dataframe
-scaled_data['serp_cluster_twofeatures'] = kmeans.fit_predict(scaled_data)
+df['cluster'] = kmeans.fit_predict(df)
 
-scaled_data.head(20)
-scaled_data.info()
-
-#remove clicks and impressions data
-scaled_data.drop(["sum_clicks","sum_impressions"], axis =1, inplace=True)
-
-
-#check data frame
-scaled_data.info()
-scaled_data.head(20)
+df.head(20)
+df.info()
 
 #reset index
-scaled_data.reset_index(inplace=True)
+df.reset_index(inplace=True)
 
 #Split unique id column
-scaled_data[['repository_id','unique_item_uri']] = scaled_data['unique_id'].str.split("-", expand=True)
-scaled_data.info()
+df[['repository_id','unique_item_uri']] = df['unique_id'].str.split("-", expand=True)
+df.info()
 
 #remove unique_id column
-scaled_data.drop("unique_id",axis=1, inplace=True)
-scaled_data.head()
+df.drop("unique_id",axis=1, inplace=True)
+df.head()
 
-#rename dataset
-clustered_data=scaled_data
-clustered_data.head()
-clustered_data.info()
 
-cluster_list = clustered_data['serp_cluster_twofeatures'].tolist()
-print(cluster_list)
-
-#output data to csv
-clustered_data.to_csv( "./clustering_and_scaling_data/twofeatures_clustered_data.csv", index = "unique_item_uri")
+#print data
+df.to_csv( "./clustering_and_scaling_data/clickthrough_clusters.csv", index = "unique_item_uri")
 
