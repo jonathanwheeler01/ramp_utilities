@@ -8,6 +8,7 @@ Created on Thu Aug 25 10:43:30 2022
 import pandas as pd
 import sqlite3
 import numpy as np
+import os
 
 def select_ir(c, p):
     con = sqlite3.connect('../metadata_database/repository_database.db')
@@ -50,6 +51,7 @@ def get_ramp(repo_id):
     return res_df
 
 
+# oklahoma_shareok to be done separately
 dspace_ir = pd.read_csv('../supplementary_data/dspace_ir_w_qdc.csv')
 ir_list = []
 for i, r in dspace_ir.iterrows():
@@ -57,8 +59,10 @@ for i, r in dspace_ir.iterrows():
     ir_list.append(ir)
     
 
-plt_dir = '../figures/'
-df_dir = '../results/'
+plt_dir = '../clicksum_plots/'
+df_dir = '../ir_meta_ramp_stats/'
+os.mkdir(plt_dir)
+os.mkdir(df_dir)
 
 output_cols = ['ir', 'count_oaipmh_records', 'all_oaipmh_datestamp',
                'item_datestamp_ratio', 'count_all_ramp_uris', 
@@ -72,7 +76,7 @@ output_cols = ['ir', 'count_oaipmh_records', 'all_oaipmh_datestamp',
 
 output_df = pd.DataFrame(columns=output_cols)
 
-for ir in sorted(ir_list[:2]):
+for ir in sorted(ir_list):
     try:
         print('\n' + ir)
         # get the repo_id and oaipmh root url
@@ -80,39 +84,24 @@ for ir in sorted(ir_list[:2]):
         ir_oairoot = ir_data['oairoot'].values[0]
         
         # get metadata for the IR
-        # do some qa/qc checks
         ir_meta = get_meta(ir_oairoot)
         ir_meta['unique_item_uri'] = ir_meta['id'].apply(uid_lookup)
-
-        # the number of unique ids and unique item uris should be the same
-        print('counts after metadata retrieval and uri creation (should be equal)')
+        print('counts after metadata retrieval and uri creation (should be ==)')
         print('count unique ids:', len(ir_meta['id'].unique()))
         print('count unique uris:', len(ir_meta['unique_item_uri'].unique()))
-
-        # create date field - rows without date metadata will be coerced to NaT
-        # then drop nulls - this should leave only rows with date metadata
         ir_meta['date'] = pd.to_datetime(ir_meta['value'], errors='coerce', utc=True).dt.date
         ir_meta.dropna(inplace=True)
-
-        # more qa/qc - assuming all IR require at least one date field
-        # the counts output below should be the same as above
-        print('counts after adding date field and dropping NaT rows (should be equal to above)')
+        print('counts after adding date field and dropping NaT rows (should == above)')
         print('count unique ids:', len(ir_meta['id'].unique()))
         print('count unique uris:', len(ir_meta['unique_item_uri'].unique()))
         count_oaipmh_records = len(ir_meta['unique_item_uri'].unique())
-
         # plot value counts for tags
-        # save the plot for viewing
         ax2 = ir_meta.groupby('tag')['id'].count().plot.bar(title=ir + ": " + str(len(ir_meta['unique_item_uri'].unique())))
-
-        # print to screen a table of value counts for metadata fields
-        # this is another way to verify all but date metadata have been dropped
         print('\n')
         print(ir_meta.groupby('tag')['id'].count())
         fig2 = ax2.get_figure()
         fig2.savefig(plt_dir + ir + "_date_field_counts.png")
-
-        # Is the a 1:1 (or close?) for item/datestamp? true across dspace IR?
+        # 1:1 (or close?) for item/datestamp? true across dspace IR?
         datestamped = ir_meta[ir_meta['tag'] == 'datestamp'].copy()
         datestamped_uri_set = set(datestamped['unique_item_uri'])
         # get the set of unique uris across all items
@@ -120,11 +109,8 @@ for ir in sorted(ir_list[:2]):
         # cross reference w/ datestamped uris - bool and ratio
         all_oaipmh_datestamp = datestamped_uri_set == ir_meta_unique_uris
         item_datestamp_intersection = datestamped_uri_set & ir_meta_unique_uris
-        # round to 6 places because otherwise ratios over 99% will still come out to 1
         item_datestamp_ratio = round(len(item_datestamp_intersection)/len(ir_meta_unique_uris), 6)
-
         # get RAMP data
-        # get unique item uris for RAMP data and interesting subsets
         ir_ramp_data = get_ramp(ir)
         ir_ramp_data_uri_set = set(ir_ramp_data['unique_item_uri'])
         count_all_ramp_uris = len(ir_ramp_data_uri_set)
