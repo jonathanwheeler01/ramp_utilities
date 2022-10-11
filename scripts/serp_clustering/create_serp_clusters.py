@@ -41,11 +41,11 @@ files = glob.glob("./ir_subsets_itemagg/*.csv")
 all_files = glob.glob("./ir_subsets_itemagg/*.csv")
 df_from_each_file = (pd.read_csv(f, sep=',') for f in all_files)
 df_merged   = pd.concat(df_from_each_file, ignore_index=True)
-df_merged.to_csv( "./merged_data/merged_ramp_allfeatures.csv")
+df_merged.to_csv( "./merged_data/merged_ramp_all_features.csv")
 
 
 # Import data set 
-df= pd.read_csv("./merged_data/merged_ramp_allfeatures.csv")
+df= pd.read_csv("./merged_data/merged_ramp_all_features.csv")
 
 #check imported data
 df.head()
@@ -67,7 +67,6 @@ id_columns_list = columns_list + id_columns
 
 # remove blank columns and those not needed in the 2 feature analysis
 df = df[id_columns_list].copy() 
-#df = df[["repository_id","unique_item_uri",'sum_clicks','sum_impressions']].copy() 
 
 #create a merged column based on repository id and unique item uri
 df['unique_id'] = df['repository_id'].map(str) + '-' + df['unique_item_uri'].map(str) 
@@ -80,6 +79,9 @@ df.info()
 #remove unneccessary columns that were joined
 df.drop(labels=["repository_id","unique_item_uri"], axis=1, inplace=True)
 df.info()
+
+#convert columns list to a string to use later
+columns = str(columns)
 
 ################################################################# SCALING THE DATA #######################################################################
 
@@ -99,7 +101,7 @@ df.head(20)
 scaled_data.head(20)
 
 #save scaled data
-scaled_data.to_csv( "./serp_clustering_data/serp_scaled_data["+columns+"].csv")
+scaled_data.to_csv( "./serp_clustering_data/serp_scaled_data/"+columns+".csv")
 ############################################################ ELBOW METHOD FROM DR. REZAPOUR #####################################################################
 
 #create function to initialize the algorithm and fit the data
@@ -139,7 +141,7 @@ _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 
 ############################################################## K-MEANS FROM YOUTUBE ############################################################################
 #Create K-Means Object 
-kmeans = KMeans(n_clusters=best_K)
+kmeans = KMeans(n_clusters=5)
 
 #fit the data to the model and apply the cluster numbers to the dataframe
 scaled_data['serp_cluster'] = kmeans.fit_predict(scaled_data)
@@ -173,9 +175,7 @@ clustered_data=scaled_data
 clustered_data.head()
 clustered_data.info()
 
-cluster_list = clustered_data['serp_cluster_twofeatures'].tolist()
-print(cluster_list)
 
 #output data to csv
-clustered_data.to_csv( "./clustering_and_scaling_data/"+ columns_list+"s_clustered_data.csv", index = "unique_item_uri")
+clustered_data.to_csv( "./serp_clustering_data/serp_clustered_data/"+columns+".csv", index = "unique_item_uri")
 
