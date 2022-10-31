@@ -4,7 +4,7 @@ Created on Mon Jul 25 08:32:26 2022
 
 @author: MayeKaypounyers
 
-This code iterates through the ir_subsets csv files to aggregated the files by unique_item_uri
+This code iterates through the ir_subsets csv files to aggregate the files by unique_item_uri
 
 """
 
