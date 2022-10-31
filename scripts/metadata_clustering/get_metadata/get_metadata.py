@@ -40,6 +40,10 @@ for i in new_string:
                      ord("]"): None,
                      ord(','): None})
     newest_string.append(i)  
+   
+#remove non-english content
+newest_string.remove
+
 # create function to grab subject metadata from the database
 def get_meta(oairoot):
     con = sqlite3.connect("./OneDrive/Desktop/metadata_database.db")
@@ -63,9 +67,13 @@ for i in newest_string:
    
    
 #reindex metadata dataframe
-metadata.reindex()
+metadata = metadata.reset_index()
+metadata.drop('index', axis =1, inplace=True)
+metadata.info()
 
-#combine with clustered data
+#remove non-english content
+
+
 
 
 #export file
