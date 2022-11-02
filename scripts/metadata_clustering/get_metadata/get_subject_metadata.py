@@ -11,7 +11,7 @@ import sqlite3
 
 #%% query database to collect dspace roots
 
-con = sqlite3.connect("./OneDrive/Desktop/metadata_database.db")
+con = sqlite3.connect("./metadata_database/metadata_database.db")
 cur = con.cursor()
 res = cur.execute("SELECT oairoot FROM repositories WHERE platform =  'dspace'")
 res_list= []
@@ -48,7 +48,7 @@ for x in russ_repos:
     
 #%%create function to grab subject metadata from the database
 def get_meta(oairoot):
-    con = sqlite3.connect("./OneDrive/Desktop/metadata_database.db")
+    con = sqlite3.connect("./metadata_database/metadata_database.db")
     cur = con.cursor()
     res = cur.execute("SELECT * FROM records WHERE id LIKE '%" + oairoot + "%' AND tag ='subject'" )
     res_list = []
@@ -71,5 +71,5 @@ metadata.drop('index', axis =1, inplace=True)
 metadata.info()
 
 #%%export file
-metadata.to_csv('./subject_metadata.csv')
+metadata.to_csv('.data/metadata_clustering_data/subject_clustering/subject_metadata.csv')
 
