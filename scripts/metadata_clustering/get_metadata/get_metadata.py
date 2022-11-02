@@ -71,5 +71,5 @@ metadata.drop('index', axis =1, inplace=True)
 metadata.info()
 
 #%%export file
-metadata.to_csv('./subject_metadata1.csv')
+metadata.to_csv('./subject_metadata.csv')
 
