@@ -41,9 +41,9 @@ for i in draft2_dspace_list:
                      ord(','): None})
     final_dspace_list.append(i)  
    
-#%%remove russian repositories content
-russ_repos = ['elar.urfu.ru', 'elar.uspu.ru']
-for x in russ_repos:
+#%%remove demo and russian repositories content
+extra_repos = ['elar.urfu.ru', 'elar.uspu.ru', 'elar.rsvpu.ru','newdemo.openrepository.com']
+for x in extra_repos:
     final_dspace_list.remove(x)
     
 #%%create function to grab subject metadata from the database
@@ -53,6 +53,7 @@ def get_meta(oairoot):
     res = cur.execute("SELECT * FROM records WHERE id LIKE '%" + oairoot + "%' AND tag ='description'" )
     res_list = []
     for r in res.fetchall():
+        print(r)
         res_list.append(r)
     res_df = pd.DataFrame(res_list, columns=['id', 'namespace', 'tag', 'value'])
     return res_df
@@ -70,5 +71,9 @@ metadata = metadata.reset_index()
 metadata.drop('index', axis =1, inplace=True)
 metadata.info()
 
+#%%condense records by id
+
+
+
 #%%export file
-metadata.to_csv('.data/metadata_clustering_data/description_clustering/description_metadata.csv')
+metadata.to_csv('./data/metadata_clustering_data/description_clustering/description_metadata.csv')

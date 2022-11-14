@@ -41,9 +41,9 @@ for i in draft2_dspace_list:
                      ord(','): None})
     final_dspace_list.append(i)  
    
-#%%remove russian repositories content
-russ_repos = ['elar.urfu.ru', 'elar.uspu.ru']
-for x in russ_repos:
+#%%remove russian and demo repositories
+extra_repos = ['elar.urfu.ru', 'elar.uspu.ru','elar.rsvpu.ru', 'newdemo.openrepository.com']
+for x in extra_repos:
     final_dspace_list.remove(x)
     
 #%%create function to grab subject metadata from the database
@@ -71,5 +71,5 @@ metadata.drop('index', axis =1, inplace=True)
 metadata.info()
 
 #%%export file
-metadata.to_csv('.data/metadata_clustering_data/subject_clustering/subject_metadata.csv')
+metadata.to_csv('./data/metadata_clustering_data/subject_clustering/subject_metadata.csv')
 
