@@ -36,6 +36,9 @@ exclude = set(string.punctuation)
 #lemmatization
 lemma = WordNetLemmatizer()
 
+#stemming
+stemmer = SnowballStemmer('english')
+
 #function for all cleaning steps:
 def clean(doc):
     
@@ -49,7 +52,8 @@ def clean(doc):
     out_string = ''.join(i for i in punc_free if not i.isdigit())
     
     # normalize the text
-    normalized = " ".join(lemma.lemmatize(word) for word in out_string.split())  
+    #normalized = " ".join(lemma.lemmatize(word) for word in out_string.split())  
+    normalized = " ".join(stemmer.stem(word) for word in out_string.split()) 
     stop_free = " ".join([i for i in normalized.lower().split() if i not in stop]) 
 
     return stop_free
