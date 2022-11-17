@@ -7,8 +7,6 @@ Created on Mon Nov 14 15:31:18 2022
 
 #%% import libraries
 import pandas as pd
-import numpy as np
-import scipy as sp
 import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -54,15 +52,21 @@ def clean(doc):
     # normalize the text
     #normalized = " ".join(lemma.lemmatize(word) for word in out_string.split())  
     normalized = " ".join(stemmer.stem(word) for word in out_string.split()) 
-    stop_free = " ".join([i for i in normalized.lower().split() if i not in stop]) 
+    stop_free = " ".join([i for i in normalized.lower().split() if i not in stop])
+    
+    #remove non-ascii letters
+    english_only = "".join(char for char in stop_free if ord(char) < 128)
+    
+    # remove duplicate words
+    remove_duplicates = ' '.join(dict.fromkeys(string.split()))
 
-    return stop_free
+    return english_only
+
 
 data['clean_value'] = data['value'].apply(clean)
 
 #%% preview clean data
 data.head()
-
 #%% create new data file with clean data only
 clean_data = data.copy()
 del clean_data['value']
