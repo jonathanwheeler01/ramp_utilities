@@ -13,9 +13,19 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 #%% import data
 subject_metadata = pd.read_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
-#%% check data and remove extra column
+#%% clean and restructure data
+#check data remove extra column & items ids without metadata
 subject_metadata.info()
+
+# remove extra column
 del subject_metadata['Unnamed: 0']
+subject_metadata.info()
+
+#remove ids without metadata
+subject_metadata.dropna(subset=['clean_value'], inplace = True)
+subject_metadata.info()
+
+subject_metadata.set_index("id", inplace = True)
 subject_metadata.info()
 
 #%% change column to string
@@ -40,11 +50,10 @@ frequency = pd.DataFrame(words_freq, columns=['word', 'freq'])
 frequency.head(20).plot(x='word', y='freq', kind='bar', figsize=(15, 7))
 plt.title("Most Frequently Occuring Words - Top 20")
 
-#%%check other features
+#%%check bottom terms
 frequency.tail(20).plot(x='word', y='freq', kind='bar', figsize=(15,7))
 plt.title("Least Frequently Occuring Words - Bottom 20")
-
-#%% determine appropriate clusters using the elbow method
+#%% create function to initialize the algorithm and fit the data
 inertias = []
 Ks = []
 for K in range(1,11):
@@ -56,13 +65,36 @@ for K in range(1,11):
     Ks.append(K)
     inertias.append(kmeans.inertia_)
 
-  #%% cluster the data
+## gather the best result
+best_combined_score, best_K, best_inertia = min(zip([K*I for K, I in zip(Ks, inertias)], Ks, inertias))
+print("best k of combined score: ", best_K)
 
-from sklearn.cluster import KMeans
+## initialize a wide figure
+fig = plt.figure(figsize = (12,6))
 
-#how did I choose 5??
-number_of_clusters=5
-## complete the code
+## plot the inertia vs cluster number
+fig.add_axes([0,0,0.45,1])
+_ = plt.plot(Ks, inertias, color = "black", linestyle = 'dashed')#ls =3
+_ = plt.scatter(best_K, best_inertia, s = 50, color = "red")
+_ = plt.xlabel("K", fontsize = 15)
+_ = plt.ylabel("Inertia", fontsize = 15)
+
+## plot the inertia times cluster number
+fig.add_axes([0.55,0,0.5,1])
+_ = plt.plot(Ks, [K*I for K, I in zip(Ks, inertias)], color = "black", linestyle = 'dashed')#ls = 3
+_ = plt.scatter(best_K, best_combined_score, s = 50, color = "red")
+_ = plt.xlabel(r"K", fontsize = 15)
+_ = plt.ylabel(r"$k \times I$", fontsize = 15)
+
+#%% Create K-Means Object 
 
 clusters = KMeans(n_clusters= number_of_clusters, max_iter = 1000)
 clusters.fit(df_bag)
+
+results = pd.DataFrame({
+    'text': subject_metadata['clean_value'],
+    'category': clusters.labels_
+})
+results
+
+#%%

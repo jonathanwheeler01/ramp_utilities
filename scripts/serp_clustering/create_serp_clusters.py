@@ -162,7 +162,6 @@ _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 #Code follows the last number in the K range (in this case K is equal to 10, but when 11 is changed to 15, K becomes 14)
 
 #%%
-############################################################## K-MEANS FROM YOUTUBE ############################################################################
 #Create K-Means Object 
 kmeans = KMeans(n_clusters=5)
 
