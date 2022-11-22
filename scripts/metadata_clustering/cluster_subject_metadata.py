@@ -88,8 +88,8 @@ _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 
 #%% Create K-Means Object 
 
-clusters = KMeans(n_clusters= number_of_clusters, max_iter = 1000)
-clusters.fit(df_bag)
+clusters = KMeans(n_clusters= 5, max_iter = 1000)
+clusters.fit(d)
 
 results = pd.DataFrame({
     'text': subject_metadata['clean_value'],
