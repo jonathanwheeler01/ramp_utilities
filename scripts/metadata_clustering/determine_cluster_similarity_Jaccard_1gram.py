@@ -10,11 +10,11 @@ import pandas as pd
 
 #%% import subject metadata
 
-subject_metadta = pd_read_csv()
+subject_metadata = pd.read_csv('./metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
 
 #%% import serp clusters
 
-serp_clusters = pd.read_csv()
+serp_clusters = pd.read_csv('./serp_clustering_data/serp_clustered_data/clickthrough_ratio.csv"')
 
 
 #%%combine subject metadata and subject cluster data organized by cluster

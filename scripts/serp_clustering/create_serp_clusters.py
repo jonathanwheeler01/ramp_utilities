@@ -188,4 +188,4 @@ clustered_data.info()
 
 #%% Output to CSV
 #output data to csv
-clustered_data.to_csv( "../serp_clustering_data/serp_clustered_data/"+columns+".csv", index = "unique_item_uri")
+clustered_data.to_csv( "./serp_clustering_data/serp_clustered_data/"+columns+".csv", index = "unique_item_uri")
