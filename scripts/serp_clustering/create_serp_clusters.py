@@ -83,6 +83,7 @@ df.info()
 #%% Drop previous ID columns
 df.drop(labels=["repository_id","unique_item_uri"], axis=1, inplace=True)
 df.info()
+df.head()
 
 #%% Coerce columns variable to str
 columns = str(columns)
@@ -91,29 +92,11 @@ columns = str(columns)
 scaler = MinMaxScaler()
 
 #%% Scale the data
-scaled_data = scaler.fit_transform(df)
-scaled_data = pd.DataFrame(scaled_data)
-scaled_data.head()
-
-
-scaled_data.info()
-
-
-
-#%% validate correct index
-# pairwise comparison of indices
-
-# have a look at the boolen mask
-scaled_data.index == df.index
-
-# create a df of rows where the indices don't match
-# ideally this will be empty
-index_check = scaled_data[scaled_data.index != df.index]
-index_check.info() # this should have 0 entries
+df[:] = scaler.fit_transform(df)
 
 #%% Save scaled data to file
 #save scaled data
-scaled_data.to_csv( "./serp_clustering_data/serp_scaled_data/"+columns+".csv")
+df.to_csv( "./serp_clustering_data/serp_scaled_data/"+columns+".csv")
 
 #%% Elbow method
 #create function to initialize the algorithm and fit the data
@@ -152,42 +135,38 @@ _ = plt.ylabel(r"$k \times I$", fontsize = 15)
 
 
 #%%  KMeans clustering
-kmeans = KMeans(n_clusters=input("How many clusters would you like to create? "))
+clusters = input("How many clusters would you like to create? ")
+
+clusters =int(clusters)
+kmeans = KMeans(n_clusters=clusters)
+
 
 #%% Fit the data
-scaled_data['serp_cluster'] = kmeans.fit_predict(scaled_data)
+kmeans.fit(df)
+
+df['serp_cluster'] = kmeans.fit_predict(df)
 
 #check scaled 
-scaled_data.head(20)
-scaled_data.info()
+df.head(20)
+df.info()
 
-#%% Remove columns
-scaled_data.drop(columns_list, axis =1, inplace=True)
-scaled_data.info()
-type(scaled_data)
-
-#%% Inspect the df
-scaled_data.info()
-scaled_data.head(20)
 
 #%% Reset index
-scaled_data.reset_index(inplace=True)
+df.reset_index(inplace=True)
 
 #%% Split unique_id column
 
-scaled_data[['repository_id','unique_item_uri']] = scaled_data['unique_id'].str.split("-", expand=True)
-scaled_data.info()
+df[['repository_id','unique_item_uri']] = df['unique_id'].str.split("-", expand=True)
+df.info()
 
 #%% Remove column
-scaled_data.drop("unique_id",axis=1, inplace=True)
-scaled_data.head()
+df.drop("unique_id",axis=1, inplace=True)
+df.head()
 
 #%% Rename dataset
-#rename dataset
-clustered_data=scaled_data
+clustered_data=df
 clustered_data.head()
 clustered_data.info()
 
 #%% Output to CSV
-#output data to csv
 clustered_data.to_csv( "./serp_clustering_data/serp_clustered_data/"+columns+".csv", index = "unique_item_uri")
