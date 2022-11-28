@@ -71,5 +71,9 @@ data.head()
 clean_data = data.copy()
 del clean_data['value']
 
+#%% remove records with no metadata
+clean_data.dropna(subset=['clean_value'], inplace = True)
+clean_data.info()
+
 #%% save clean data file for inspection
 clean_data.to_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')

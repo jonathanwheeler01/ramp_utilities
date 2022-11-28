@@ -79,7 +79,6 @@ df.set_index("unique_id", inplace = True)
 df.info()
 
 #%% Drop previous ID columns
-#remove unneccessary columns that were joined
 df.drop(labels=["repository_id","unique_item_uri"], axis=1, inplace=True)
 df.info()
 
@@ -96,7 +95,7 @@ scaled_data.head()
 
 
 scaled_data.info()
-scaled_data.head(20)
+
 
 #%% validate correct index
 # pairwise comparison of indices

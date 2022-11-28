@@ -18,8 +18,8 @@ serp_clusters = pd.read_csv('./serp_clustering_data/serp_clustered_data/clickthr
 
 
 #%%combine subject metadata and subject cluster data organized by cluster
-
-
+subject_metadata.head()
+subject_metadata.info()
 
 #%%determine item similarity through one-hot encodings and Jaccard Similarity
 
