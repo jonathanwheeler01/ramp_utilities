@@ -23,6 +23,8 @@ ct_pos_gt10_lte20
 ct_pos_gt20_lte50
 ct_pos_gt50_lte100
 ct_pos_gt100
+
+working directory:  ./serp_and_subject_clustering/data/
 """
 
 #%% Import libraries
@@ -95,6 +97,7 @@ scaled_data.head()
 
 
 scaled_data.info()
+
 
 
 #%% validate correct index
