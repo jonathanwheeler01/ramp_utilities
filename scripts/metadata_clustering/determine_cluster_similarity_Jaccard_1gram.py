@@ -8,6 +8,8 @@ Created on Mon Nov 21 08:55:22 2022
 #%%import libraries
 import pandas as pd
 import sqlite3
+import numpy as np
+from sklearn.metrics import pairwise_distances
 
 #%% import subject metadata
 subject_metadata = pd.read_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
@@ -19,7 +21,9 @@ serp_clusters = pd.read_csv('./data/serp_clustering_data/serp_clustered_data/cli
 del serp_clusters['Unnamed: 0']
 serp_clusters.info()
 serp_clusters.head()
-#%%split id column in subject_metadata to get unique_item_uri
+#%%combine and clean dataframes
+
+#split id column in subject_metadata to get unique_item_uri
 subject_metadata['id'].head()
 subject_metadata['unique_item_uri'] = subject_metadata['id'].str.split(':', expand=True)[2]
 subject_metadata['oairoot'] = subject_metadata['id'].str.split(':', expand=True)[1]
@@ -47,7 +51,7 @@ new_subject_metadata.head()
 serp_clusters['unique_id'] = serp_clusters['repository_id'].map(str) + '-' + serp_clusters['unique_item_uri'].map(str) 
 new_subject_metadata['unique_id'] = new_subject_metadata['repo_id'].map(str) + '-' +'/'+ new_subject_metadata['unique_item_uri'].map(str) 
 
-#create combine dataframe
+#create combined dataframe
 serp_clusters_and_metadata= pd.merge(serp_clusters, new_subject_metadata, on = "unique_id", how = "inner")
 
 #remove additional columns
@@ -56,9 +60,28 @@ serp_clusters_and_metadata = serp_clusters_and_metadata[['unique_id', 'serp_clus
 #organize by serp cluster
 serp_clusters_and_metadata.sort_values(by=['serp_cluster'], inplace = True)
 
+#check data
+serp_clusters_and_metadata.head()
+serp_clusters_and_metadata.info()
+
+#drop records without metadata
+serp_clusters_and_metadata.dropna(subset=['clean_value'], inplace = True)
+serp_clusters_and_metadata.info()
+
+#%%divide the dataframe based on serp cluster
+
+#could this be automated to base the cluster dataframes on the number of clusters 
+cluster0= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==0]
+cluster1=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==1]
+cluster2=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==2]
+cluster3=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==3]
+cluster4=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==4]
+
 #%%determine item similarity through one-hot encodings and Jaccard Similarity
 
-
-
+def determine_similarity(df):
+    jac_sim = 1 - pairwise_distances(df['clean_value'], metric="hamming")
+    jac_sim = pd.DataFrame(jac_sim, index = df.columns, columns = df.columns)
+    return jac_sim
 
 #%% determine average similarity within clusters
