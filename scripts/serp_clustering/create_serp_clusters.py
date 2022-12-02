@@ -24,7 +24,7 @@ ct_pos_gt20_lte50
 ct_pos_gt50_lte100
 ct_pos_gt100
 
-working directory:  ./serp_and_subject_clustering/data/
+
 """
 
 #%% Import libraries
@@ -37,13 +37,13 @@ from sklearn.preprocessing import MinMaxScaler
 
 
 #%% Read and combine files
-all_files = glob.glob("./ir_subsets_itemagg/*.csv")
+all_files = glob.glob("./data/ir_subsets_itemagg/*.csv")
 df_from_each_file = (pd.read_csv(f, sep=',') for f in all_files)
 df_merged   = pd.concat(df_from_each_file, ignore_index=True)
-df_merged.to_csv( "./merged_data/merged_ramp_all_features.csv")
+df_merged.to_csv( "./data/merged_data/merged_ramp_all_features.csv")
 
 #%% Import merged dataset
-df= pd.read_csv("./merged_data/merged_ramp_all_features.csv")
+df= pd.read_csv("./data/merged_data/merged_ramp_all_features.csv")
 
 #check imported data
 df.info()
@@ -96,17 +96,17 @@ df[:] = scaler.fit_transform(df)
 
 #%% Save scaled data to file
 #save scaled data
-df.to_csv( "./serp_clustering_data/serp_scaled_data/"+columns+".csv")
+df.to_csv( "./data/serp_clustering_data/serp_scaled_data/"+columns+".csv")
 
 #%% Elbow method
 #create function to initialize the algorithm and fit the data
 inertias = []
 Ks = []
-for K in range(1,10):
+for K in range(1,21):
     ## initialize the algorithm
     kmeans = KMeans(n_clusters=K)
     ## run the algorithm on the data
-    kmeans.fit(scaled_data)
+    kmeans.fit(df)
 
     Ks.append(K)
     inertias.append(kmeans.inertia_)
@@ -150,6 +150,18 @@ df['serp_cluster'] = kmeans.fit_predict(df)
 df.head(20)
 df.info()
 
+#%%visualize clusters
+
+label = kmeans.fit_predict(df)
+
+u_labels = np.unique(label)
+
+#plotting the results:
+#modify code to match number of clusters
+for i in u_labels:
+    plt.scatter(df[label == i , 0] , df[label == i , 1] , df[label == i , 4], label = i)
+plt.legend()
+plt.show()
 
 #%% Reset index
 df.reset_index(inplace=True)
