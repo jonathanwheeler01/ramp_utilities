@@ -47,54 +47,9 @@ words_freq = [(word, sum_words[0, idx]) for word, idx in tfidf.vocabulary_.items
 words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
 frequency = pd.DataFrame(words_freq, columns=['word', 'freq'])
 
-frequency.head(20).plot(x='word', y='freq', kind='bar', figsize=(15, 7))
-plt.title("Most Frequently Occuring Words - Top 20")
+frequency.head(10).plot(x='word', y='freq', kind='bar', figsize=(15, 7))
+plt.title("Most Frequently Occuring Words - Top 10")
 
 #%%check bottom terms
-frequency.tail(20).plot(x='word', y='freq', kind='bar', figsize=(15,7))
-plt.title("Least Frequently Occuring Words - Bottom 20")
-#%% create function to initialize the algorithm and fit the data
-inertias = []
-Ks = []
-for K in range(1,11):
-    ## initialize the algorithm
-    kmeans = KMeans(n_clusters=K)
-    ## run the algorithm on the data
-    kmeans.fit(data_bag)
-
-    Ks.append(K)
-    inertias.append(kmeans.inertia_)
-
-## gather the best result
-best_combined_score, best_K, best_inertia = min(zip([K*I for K, I in zip(Ks, inertias)], Ks, inertias))
-print("best k of combined score: ", best_K)
-
-## initialize a wide figure
-fig = plt.figure(figsize = (12,6))
-
-## plot the inertia vs cluster number
-fig.add_axes([0,0,0.45,1])
-_ = plt.plot(Ks, inertias, color = "black", linestyle = 'dashed')#ls =3
-_ = plt.scatter(best_K, best_inertia, s = 50, color = "red")
-_ = plt.xlabel("K", fontsize = 15)
-_ = plt.ylabel("Inertia", fontsize = 15)
-
-## plot the inertia times cluster number
-fig.add_axes([0.55,0,0.5,1])
-_ = plt.plot(Ks, [K*I for K, I in zip(Ks, inertias)], color = "black", linestyle = 'dashed')#ls = 3
-_ = plt.scatter(best_K, best_combined_score, s = 50, color = "red")
-_ = plt.xlabel(r"K", fontsize = 15)
-_ = plt.ylabel(r"$k \times I$", fontsize = 15)
-
-#%% Create K-Means Object 
-
-clusters = KMeans(n_clusters= 5, max_iter = 1000)
-clusters.fit(d)
-
-results = pd.DataFrame({
-    'text': subject_metadata['clean_value'],
-    'category': clusters.labels_
-})
-results
-
-#%%
+frequency.tail(10).plot(x='word', y='freq', kind='bar', figsize=(15,7))
+plt.title("Least Frequently Occuring Words - Bottom 10")

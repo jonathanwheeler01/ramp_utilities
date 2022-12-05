@@ -28,7 +28,6 @@ ct_pos_gt100
 """
 
 #%% Import libraries
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob
@@ -95,14 +94,14 @@ scaler = MinMaxScaler()
 df[:] = scaler.fit_transform(df)
 
 #%% Save scaled data to file
-#save scaled data
+
 df.to_csv( "./data/serp_clustering_data/serp_scaled_data/"+columns+".csv")
 
 #%% Elbow method
 #create function to initialize the algorithm and fit the data
 inertias = []
 Ks = []
-for K in range(1,21):
+for K in range(1,11):
     ## initialize the algorithm
     kmeans = KMeans(n_clusters=K)
     ## run the algorithm on the data
@@ -142,25 +141,20 @@ kmeans = KMeans(n_clusters=clusters)
 
 
 #%% Fit the data
-kmeans.fit(df)
-
 df['serp_cluster'] = kmeans.fit_predict(df)
+y_kmeans = kmeans.fit_predict(df)
 
 #check scaled 
 df.head(20)
 df.info()
 
 #%%visualize clusters
-
-label = kmeans.fit_predict(df)
-
-u_labels = np.unique(label)
-
-#plotting the results:
-#modify code to match number of clusters
-for i in u_labels:
-    plt.scatter(df[label == i , 0] , df[label == i , 1] , df[label == i , 4], label = i)
-plt.legend()
+fig = plt.figure(figsize=(26,6))
+ax = fig.add_subplot(131)
+ax.scatter(df.sum_clicks, df.sum_impressions, c=df.serp_cluster, s=15)
+ax.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=200, c='red', label = 'Centroids')
+ax.set_xlabel('Sum of Clicks')
+ax.set_ylabel('Sum of Impressions')
 plt.show()
 
 #%% Reset index
@@ -181,4 +175,4 @@ clustered_data.head()
 clustered_data.info()
 
 #%% Output to CSV
-clustered_data.to_csv( "./serp_clustering_data/serp_clustered_data/"+columns+".csv", index = "unique_item_uri")
+clustered_data.to_csv( "./data/serp_clustering_data/serp_clustered_data/"+columns+".csv", index = "unique_item_uri")

@@ -4,7 +4,7 @@ Created on Mon Nov  7 14:15:29 2022
 
 @author: kaypo
 """
-
+#%%
 #import libraries
 import pandas as pd
 

@@ -8,8 +8,13 @@ Created on Fri Dec  2 14:38:17 2022
 #%%import libraries
 import pandas as pd
 import sqlite3
+import nltk
+import nltk.cluster
 import numpy as np
-from sklearn.metrics import pairwise_distances
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 #%% import subject metadata
 subject_metadata = pd.read_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
@@ -17,7 +22,7 @@ del subject_metadata['Unnamed: 0']
 subject_metadata.info()
 subject_metadata.head()
 #%% import serp clusters
-serp_clusters = pd.read_csv('./data/serp_clustering_data/serp_clustered_data/clickthrough_ratio.csv')
+serp_clusters = pd.read_csv('./data/serp_clustering_data/serp_clustered_data/sum_clicks,sum_impressions.csv')
 del serp_clusters['Unnamed: 0']
 serp_clusters.info()
 serp_clusters.head()
@@ -71,14 +76,24 @@ serp_clusters_and_metadata.info()
 #%%divide the dataframe based on serp cluster
 
 #could this be automated to base the cluster dataframes on the number of clusters 
-cluster0= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==0]
-cluster1=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==1]
-cluster2=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==2]
-cluster3=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==3]
-cluster4=  serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==4]
+cluster1= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==0]
+cluster2= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==1]
+cluster3= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==2]
 
-#%%determine item similarity through one-hot encodings and Jaccard Similarity
+#%%determine item similarity through one-hot encodings and cosine similarity
+tfidf = TfidfVectorizer(stop_words='english', max_df=0.95, min_df= 10, max_features = 500)
+data_bag = tfidf.fit_transform(serp_clusters_and_metadata['clean_value'])
+feature_names = tfidf.get_feature_names()
 
+#%% check top terms
+sum_words = data_bag.sum(axis=0)
+
+words_freq = [(word, sum_words[0, idx]) for word, idx in tfidf.vocabulary_.items()]
+words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
+frequency = pd.DataFrame(words_freq, columns=['word', 'freq'])
+
+frequency.head(5).plot(x='word', y='freq', kind='bar', figsize=(15, 7))
+plt.title("Most Frequently Occuring Words - Top 5")
 
 
 #%% determine average similarity within clusters
