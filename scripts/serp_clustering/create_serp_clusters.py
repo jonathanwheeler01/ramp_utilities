@@ -149,6 +149,7 @@ df.head(20)
 df.info()
 
 #%%visualize clusters
+#find a way to automate the axis labels 
 fig = plt.figure(figsize=(26,6))
 ax = fig.add_subplot(131)
 ax.scatter(df.sum_clicks, df.sum_impressions, c=df.serp_cluster, s=15)
