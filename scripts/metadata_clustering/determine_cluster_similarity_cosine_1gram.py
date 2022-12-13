@@ -82,6 +82,7 @@ cluster2= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']=
 cluster3= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==2]
 
 print(cluster3)
+cluster3.to_csv('./data/metadata_clustering_data/subject_clustering/cluster3_metadata_'+ columns+'.csv')
 
 #%%convert words to vectors for all clusters
 countvector = CountVectorizer(stop_words='english', max_df=0.95, min_df= 5, max_features = 500)
@@ -101,6 +102,9 @@ print(data_bag3)
 word_dataframe = pd.DataFrame(list(countvector3.vocabulary_.items()), columns = ['word', 'count'])
 
 word_dataframe.head
+word_dataframe.sort_values('count', ascending=False)
+
+
 #%% check top terms
 #adjust for new vectorizer method
 sum_words = data_bag3.sum(axis=0)
