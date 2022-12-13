@@ -8,13 +8,9 @@ Created on Fri Dec  2 14:38:17 2022
 #%%import libraries
 import pandas as pd
 import sqlite3
-import nltk
-import nltk.cluster
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 #%% import subject metadata
 subject_metadata = pd.read_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
@@ -26,6 +22,11 @@ serp_clusters = pd.read_csv('./data/serp_clustering_data/serp_clustered_data/sum
 del serp_clusters['Unnamed: 0']
 serp_clusters.info()
 serp_clusters.head()
+#%%create column names variable to use later when saving file
+print(serp_clusters.columns)
+
+columns = input('Input name of columns used to cluster separated by commas: ')
+
 #%%combine and clean dataframes
 
 #split id column in subject_metadata to get unique_item_uri
@@ -80,20 +81,70 @@ cluster1= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']=
 cluster2= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==1]
 cluster3= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==2]
 
-#%%determine item similarity through one-hot encodings and cosine similarity
-tfidf = TfidfVectorizer(stop_words='english', max_df=0.95, min_df= 10, max_features = 500)
-data_bag = tfidf.fit_transform(serp_clusters_and_metadata['clean_value'])
-feature_names = tfidf.get_feature_names()
+print(cluster3)
 
+#%%convert words to vectors for all clusters
+countvector = CountVectorizer(stop_words='english', max_df=0.95, min_df= 5, max_features = 500)
+data_bag = countvector.fit_transform(serp_clusters_and_metadata['clean_value'])
+feature_names = countvector.get_feature_names()
+
+print(countvector.vocabulary_)
+
+#%%convert words to vectors for cluster 3
+countvector3 = CountVectorizer(stop_words='english', max_df=0.95, min_df= 3, max_features = 500)
+data_bag3 = countvector3.fit_transform(cluster3['clean_value'])
+feature_names3 =countvector3.get_feature_names()
+print(countvector3.vocabulary_)
+print(data_bag3)
+
+#%%convert vocabulary to dataframe for analysis
+word_dataframe = pd.DataFrame(list(countvector3.vocabulary_.items()), columns = ['word', 'count'])
+
+word_dataframe.head
 #%% check top terms
-sum_words = data_bag.sum(axis=0)
+#adjust for new vectorizer method
+sum_words = data_bag3.sum(axis=0)
 
-words_freq = [(word, sum_words[0, idx]) for word, idx in tfidf.vocabulary_.items()]
+
+words_freq = [(word, sum_words[0, idx]) for word, idx in countvector3.vocabulary_]
 words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
 frequency = pd.DataFrame(words_freq, columns=['word', 'freq'])
 
 frequency.head(5).plot(x='word', y='freq', kind='bar', figsize=(15, 7))
-plt.title("Most Frequently Occuring Words - Top 5")
+plt.title("Most Frequently Occuring Words (Cluster 3) - Top 5")
 
 
-#%% determine average similarity within clusters
+#%% cosine similarity for cluster 3
+
+import pandas as pd
+
+data_bag.toarray()
+
+cluster3.info()
+
+term_count_per_doc = pd.DataFrame(data_bag3.toarray(),columns = feature_names3 , index = cluster3['unique_id'])
+
+similarity_matrix = cosine_similarity(term_count_per_doc,term_count_per_doc)
+
+print(similarity_matrix)
+
+type(similarity_matrix)
+
+similarity_dataframe = pd.DataFrame(similarity_matrix, columns =list(cluster3['unique_id']), index=list(cluster3['unique_id']))
+
+#%%store similarity dataframe
+
+similarity_dataframe.to_csv('./data/metadata_clustering_data/subject_clustering/similarity_matrix_'+ columns +'.csv')
+#%% Visualize the matrix with colored squares indicating similarity
+fig = plt.figure(figsize=(8,8), dpi=300)
+ax = fig.add_subplot(111)
+
+ax.matshow(similarity_dataframe, cmap='Blues', vmin = 0.0, vmax = 0.2)
+
+
+# Set the tick labels as the unique identifier
+ax.set_xticklabels(list(similarity_dataframe.columns))
+ax.set_yticklabels(list(similarity_dataframe.columns))
+
+# Rotate the labels on the x-axis by 90 degrees
+plt.xticks(rotation=90);
