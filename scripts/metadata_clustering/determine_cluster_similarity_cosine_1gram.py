@@ -9,6 +9,7 @@ Created on Fri Dec  2 14:38:17 2022
 import pandas as pd
 import sqlite3
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -105,35 +106,17 @@ word_dataframe.head
 word_dataframe.sort_values('count', ascending=False)
 
 
-#%% check top terms
-#adjust for new vectorizer method
-sum_words = data_bag3.sum(axis=0)
-
-
-words_freq = [(word, sum_words[0, idx]) for word, idx in countvector3.vocabulary_]
-words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
-frequency = pd.DataFrame(words_freq, columns=['word', 'freq'])
-
-frequency.head(5).plot(x='word', y='freq', kind='bar', figsize=(15, 7))
-plt.title("Most Frequently Occuring Words (Cluster 3) - Top 5")
-
-
 #%% cosine similarity for cluster 3
 
-import pandas as pd
-
 data_bag.toarray()
-
-cluster3.info()
-
 term_count_per_doc = pd.DataFrame(data_bag3.toarray(),columns = feature_names3 , index = cluster3['unique_id'])
-
 similarity_matrix = cosine_similarity(term_count_per_doc,term_count_per_doc)
 
 print(similarity_matrix)
 
 type(similarity_matrix)
 
+#create a dataframe from the matrix
 similarity_dataframe = pd.DataFrame(similarity_matrix, columns =list(cluster3['unique_id']), index=list(cluster3['unique_id']))
 
 #%%store similarity dataframe
@@ -147,8 +130,11 @@ ax.matshow(similarity_dataframe, cmap='Blues', vmin = 0.0, vmax = 0.2)
 
 
 # Set the tick labels as the unique identifier
-ax.set_xticklabels(list(similarity_dataframe.columns))
-ax.set_yticklabels(list(similarity_dataframe.columns))
+plt.xticks(ticks =np.arange(len(similarity_matrix)), labels = list(similarity_dataframe.columns))
+plt.yticks(ticks =np.arange(len(similarity_matrix)), labels = list(similarity_dataframe.columns))
 
 # Rotate the labels on the x-axis by 90 degrees
 plt.xticks(rotation=90);
+
+#show all tickmarks
+
