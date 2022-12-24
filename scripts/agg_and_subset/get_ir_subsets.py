@@ -1,6 +1,8 @@
 import glob
 from utilities import *   # pandas is imported here
 
+# Determine which IRs to include in final data subsets to be analyzed
+
 
 def subset_ramp_by_ir(ir_id, ir_platform):
     print("\n", ir_id)
