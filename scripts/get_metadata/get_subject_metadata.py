@@ -2,6 +2,9 @@
 """
 Created on Tue Oct 11 14:32:24 2022
 
+Extracts subject metadata for resources included in the previous
+search engine performance analysis
+
 @author: MayeKaypounyers
 """
 
@@ -71,5 +74,5 @@ metadata.drop('index', axis =1, inplace=True)
 metadata.info()
 
 #%%export file
-metadata.to_csv('./data/metadata_clustering_data/subject_clustering/subject_metadata.csv')
+metadata.to_csv('./data/metadata_similarity_data/subject_metadata.csv')
 

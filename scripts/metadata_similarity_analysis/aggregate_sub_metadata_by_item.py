@@ -2,6 +2,8 @@
 """
 Created on Mon Nov  7 14:15:29 2022
 
+Aggregates subject metadata by unique resource from RAMP IRs
+
 @author: kaypo
 """
 #%%
@@ -9,7 +11,7 @@ Created on Mon Nov  7 14:15:29 2022
 import pandas as pd
 
 #import data file
-df = pd.read_csv('./data/metadata_clustering_data/subject_clustering/subject_metadata.csv')
+df = pd.read_csv('./data/metadata_similarity_data/subject_metadata.csv')
 
 #group by id
 agg_df= df.groupby('id').agg(lambda x: x.tolist())
@@ -34,4 +36,4 @@ metadata_and_id.columns
 metadata_and_id.head()
 
 #export aggragated data frame
-metadata_and_id.to_csv('./data/metadata_clustering_data/subject_clustering/aggregated_subject_metadata.csv')
+metadata_and_id.to_csv('./data/metadata_similarity_data/aggregated_subject_metadata.csv')

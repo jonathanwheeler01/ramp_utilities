@@ -2,6 +2,8 @@
 """
 Created on Wed Sep  7 10:57:55 2022
 
+Determiens descriptive metrics for each cluster - mean values, IQR, etc.
+
 @author: MayeKaypounyers
 """
 

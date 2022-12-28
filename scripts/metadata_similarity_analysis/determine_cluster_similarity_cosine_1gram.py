@@ -2,6 +2,10 @@
 """
 Created on Fri Dec  2 14:38:17 2022
 
+Determines the subject term simiarltiy of resources wwith similar
+search engine performance metrics -- this code is based on 
+click sums and impression sums data 
+
 @author: kaypo
 """
 
@@ -14,7 +18,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 #%% import subject metadata
-subject_metadata = pd.read_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
+subject_metadata = pd.read_csv('./data/metadata_similarity_data/clean_subject_metadata.csv')
 del subject_metadata['Unnamed: 0']
 subject_metadata.info()
 subject_metadata.head()
@@ -83,7 +87,7 @@ cluster2= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']=
 cluster3= serp_clusters_and_metadata[serp_clusters_and_metadata['serp_cluster']==2]
 
 print(cluster3)
-cluster3.to_csv('./data/metadata_clustering_data/subject_clustering/cluster3_metadata_'+ columns+'.csv')
+cluster3.to_csv('./data/metadata_similarity_data/cluster3_metadata_'+ columns+'.csv')
 
 #%%convert words to vectors for all clusters
 countvector = CountVectorizer(stop_words='english', max_df=0.95, min_df= 5, max_features = 500)
@@ -121,7 +125,7 @@ similarity_dataframe = pd.DataFrame(similarity_matrix, columns =list(cluster3['u
 
 #%%store similarity dataframe
 
-similarity_dataframe.to_csv('./data/metadata_clustering_data/subject_clustering/similarity_matrix_'+ columns +'.csv')
+similarity_dataframe.to_csv('./data/metadata_similarity_data/similarity_matrix_'+ columns +'.csv')
 #%% Visualize the matrix with colored squares indicating similarity
 fig = plt.figure(figsize=(8,8), dpi=300)
 ax = fig.add_subplot(111)

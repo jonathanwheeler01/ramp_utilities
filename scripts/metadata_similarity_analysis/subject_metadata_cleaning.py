@@ -2,6 +2,9 @@
 """
 Created on Mon Nov 14 15:31:18 2022
 
+Cleans metadata by removing stop words, tokenizing, among other
+NLP techniques
+
 @author: kaypo
 """
 
@@ -18,7 +21,7 @@ import string
 
 
 #%% upload data
-data = pd.read_csv('./data/metadata_clustering_data/subject_clustering/aggregated_subject_metadata.csv') 
+data = pd.read_csv('./data/metadata_similarity_data/aggregated_subject_metadata.csv') 
 
 #%% check data file
 data.head()
@@ -57,8 +60,6 @@ def clean(doc):
     #remove non-ascii letters
     english_only = "".join(char for char in stop_free if ord(char) < 128)
     
-    # remove duplicate words
-    remove_duplicates = ' '.join(dict.fromkeys(string.split()))
 
     return english_only
 
@@ -76,4 +77,4 @@ clean_data.dropna(subset=['clean_value'], inplace = True)
 clean_data.info()
 
 #%% save clean data file for inspection
-clean_data.to_csv('./data/metadata_clustering_data/subject_clustering/clean_subject_metadata.csv')
+clean_data.to_csv('./data/metadata_similarity_data/clean_subject_metadata.csv')
