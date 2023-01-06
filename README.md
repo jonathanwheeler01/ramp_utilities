@@ -19,7 +19,9 @@ agg_and_subset/item_aggregation.py
 
 **RAMP/Search Engine Results Page Performance Data Clustering**
 (scripts/ serp_clustering)	
-<br>Python, sklearn, pandas, numpy, K-Means Clustering	serp_clustering/create_serp_clusters.py
+<br>Python, sklearn, pandas, numpy, K-Means Clustering	
+
+<br>serp_clustering/create_serp_clusters.py
 <br>creates resource clusters based on search engine performance data collected from the Google Console Services. The code allows for a user to determine which <br>search engine performance features to include in the clustering protocol
 <br>outputs to …/data/serp_clustering_data/serp_clusterd_data
 
