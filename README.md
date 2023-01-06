@@ -19,10 +19,10 @@ agg_and_subset/item_aggregation.py
 
 **RAMP/Search Engine Results Page Performance Data Clustering**
 (scripts/ serp_clustering)	
-<br>Python, sklearn, pandas, numpy, K-Means Clustering	
+<br>Python, sklearn, pandas, numpy, K-Means Clustering
+
 <br>serp_clustering/create_serp_clusters.py
-<br>creates resource clusters based on search engine performance data collected from the Google Console Services. The code allows for a user to determine which search engine performance features to include in the clustering protocol
-<br>outputs to …/data/serp_clustering_data/serp_clusterd_data
+<br>creates resource clusters based on search engine performance data collected from the Google Console Services. The code allows for a user to determine which search engine performance features to include in the clustering protocol outputs to …/data/serp_clustering_data/serp_clusterd_data
 
 serp_clustering/inspect_serp_clusters
 <br>determines descriptive metrics for each cluster – mean values, IQR, etc.
@@ -30,13 +30,17 @@ serp_clustering/inspect_serp_clusters
 
 **Extract Subject Metadata**
 (scripts/get_metadata)
-<br>Python, SQLite, OAI-PHM (not included in the stored code – request made by project mentor), pandas	get_metadata/get_subject_metadata.py 
+<br>Python, SQLite, OAI-PHM (not included in the stored code – request made by project mentor), pandas
+<br>get_metadata/get_subject_metadata.py 
+
 <br>extracts subject metadata for each resource included in the previous search engine performance clustering analysis
 <br>outputs to …/data/metadata_similarity_data/subject_metadata
 
 **Determine Subject Similarity of Clustered Resources**
 (scripts/metadata_similarity_analysis)
-<br>Only English and Spanish language metadata was used for clustering.	Python, pandas, nltk, matplotlib, numpy, sklearn <br>metadata_similarity_analysis/aggregate_sub_metadata_by_item.py 
+<br>Only English and Spanish language metadata was used for clustering.	Python, pandas, nltk, matplotlib, numpy, sklearn 
+
+<br>metadata_similarity_analysis/aggregate_sub_metadata_by_item.py 
 <br>aggregates subject metadata by unique resource from RAMP IRs
 <br>outputs to …/data/metadata_similarity_data/aggregated_subject_metadata
 
