@@ -26,7 +26,7 @@ serp_clustering/inspect_serp_clusters
 <br>determines descriptive metrics for each cluster – mean values, IQR, etc.
 <br>outputs to …/data/serp_clustering_data/serp_cluster_summaries
 
-**Extract Subject Metadata **
+**Extract Subject Metadata**
 (scripts/get_metadata)
 <br>Python, SQLite, OAI-PHM (not included in the stored code – request made by project mentor), pandas	get_metadata/get_subject_metadata.py 
 <br>extracts subject metadata for each resource included in the previous search engine performance clustering analysis
