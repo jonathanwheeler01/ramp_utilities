@@ -11,7 +11,7 @@ combines data files – created by project mentor for frequently needed cleaning
 
 agg_and_subset/get_ir_subsets.py
 determines which IRs to include in final data subsets to be analyzed
-outputs to …/data/ir_data_subsets
+<br>outputs to …/data/ir_data_subsets
 
 agg_and_subset/item_aggregation.py 
 used to combine rows by unique_item_uri
