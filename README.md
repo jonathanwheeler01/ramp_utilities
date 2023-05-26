@@ -1,4 +1,6 @@
 # serp_and_metadata_clustering_and_similarity_analysis
+## Authors: Kaypounyers Maye (Tulane University) & Jonathan Wheeler (University of New Mexico)
+## IMLS Grant Funded Project - (IMLS) RE-246450-OLS-20
 
 A directory for clustering and similarity analysis scripts used to analyze 2020 Repository Analytics Metrics Portal (RAMP) data. The scripts (1) cluster resources from DSpace repositories participating in RAMP based on search engine performance metrics provided by the Google Console and (2) determine the subject (DC metadata) similarity of resources that have been clustered together.
 ```
